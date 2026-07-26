@@ -1,0 +1,96 @@
+:root{
+    /* ==========================
+       BRAND COLOURS
+    ========================== */
+    --primary-color:#0B2E59;
+    --secondary-color:#D4A017;
+    --accent-color:#F97316;
+
+    /* ==========================
+       STATUS COLOURS
+    ========================== */
+    --success-color:#16A34A;
+
+    /* ==========================
+       BACKGROUNDS
+    ========================== */
+    --background-color:#F8FAFC;
+    --surface-color:#FFFFFF;
+    --dark-background:#111827;
+
+    /* ==========================
+       TEXT
+    ========================== */
+    --heading-color:#1F2937;
+    --text-color:#374151;
+    --muted-text:#6B7280;
+
+    /* ==========================
+       BORDERS
+    ========================== */
+    --border-color:#E5E7EB;
+
+    /* ==========================
+       EFFECTS
+    ========================== */
+    --hero-overlay:rgba(11,46,89,.75);
+    
+    /* ==========================================
+       TYPOGRAPHY
+    ========================================== */
+    --heading-font:'Poppins', sans-serif;
+    --body-font:'Inter', sans-serif;
+}
+/* ==========================================
+   CSS RESET
+========================================== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+html{
+    scroll-behavior:smooth;
+}
+body{
+    min-height:100vh;
+    font-family:var(--body-font);
+    background-color:var(--background-color);
+    color:var(--text-color);
+    line-height:1.6;
+}
+img{
+    display:block;
+    max-width:100%;
+}
+a{
+    text-decoration:none;
+    color:inherit;
+}
+ul,
+ol{
+    list-style:none;
+}
+button,
+input,
+textarea,
+select{
+    font:inherit;
+    border:none;
+    outline:none;
+}
+button{
+    cursor:pointer;
+}
+table{
+    border-collapse:collapse;
+    border-spacing:0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+    font-family:var(--heading-font);
+}
