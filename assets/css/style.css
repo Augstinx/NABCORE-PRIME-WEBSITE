@@ -82,6 +82,11 @@
 --z-sticky:500;
 --z-fixed:1000;
 --z-modal:2000;
+
+/* ==========================================
+   CONTAINER
+========================================== */
+--container-width:1200px;
 }
 
 
@@ -145,7 +150,7 @@ h6{
 ========================================== */
 .container{
     width:100%;
-    max-width:1200px;
+    max-width:var(--container-width);
     margin:0 auto;
     padding:0 20px;
 }
@@ -218,4 +223,303 @@ section{
     font-size:1.1rem;
     color:var(--muted-text);
     line-height:1.8;
+}
+/* ==========================================
+   GLOBAL BUTTON SYSTEM
+========================================== */
+/* Base Button */
+.btn{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    padding:14px 32px;
+    font-family:var(--heading-font);
+    font-size:1rem;
+    font-weight:600;
+    border-radius:var(--radius-md);
+    transition:var(--transition-normal);
+    cursor:pointer;
+}
+/* Primary Button */
+.btn-primary{
+    background:var(--primary-color);
+    color:var(--surface-color);
+}
+.btn-primary:hover{
+    background:#14457F;
+    transform:translateY(-3px);
+    box-shadow:var(--shadow-md);
+}
+/* Secondary Button */
+.btn-secondary{
+    background:var(--secondary-color);
+    color:var(--surface-color);
+}
+.btn-secondary:hover{
+    background:#B88B12;
+    transform:translateY(-3px);
+    box-shadow:var(--shadow-md);
+}
+/* Outline Button */
+.btn-outline{
+    border:2px solid var(--primary-color);
+    color:var(--primary-color);
+    background:transparent;
+}
+.btn-outline:hover{
+    background:var(--primary-color);
+    color:var(--surface-color);
+}
+/* White Button */
+.btn-white{
+    background:var(--surface-color);
+    color:var(--primary-color);
+}
+.btn-white:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--shadow-md);
+}
+/* ==========================================
+   WEBSITE HEADER
+========================================== */
+.header{
+    background:var(--surface-color);
+    box-shadow:var(--shadow-sm);
+    position:sticky;
+    top:0;
+    z-index:var(--z-sticky);
+}
+.header-wrapper{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    min-height:90px;
+}
+/* ==========================================
+   LOGO
+========================================== */
+.logo{
+    font-family:var(--heading-font);
+    font-size:1.6rem;
+    font-weight:700;
+    color:var(--primary-color);
+}
+/* ==========================================
+   NAVIGATION
+========================================== */
+.nav-menu{
+    display:flex;
+    align-items:center;
+    gap:32px;
+}
+.nav-menu a{
+    font-family:var(--heading-font);
+    font-size:0.95rem;
+    font-weight:500;
+    color:var(--heading-color);
+    transition:var(--transition-normal);
+}
+.nav-menu a:hover{
+    color:var(--primary-color);
+}
+.nav-menu li{
+    position:relative;
+}
+/* ==========================================
+   TOP INFORMATION BAR
+========================================== */
+.top-bar{
+    background:var(--primary-color);
+    color:var(--surface-color);
+    font-size:.9rem;
+}
+.top-bar-wrapper{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    min-height:48px;
+}
+.top-bar-left,
+.top-bar-right{
+    display:flex;
+    align-items:center;
+    gap:24px;
+}
+/* ==========================================
+   TOP BAR LINKS
+========================================== */
+.top-bar a{
+    color:var(--surface-color);
+    transition:var(--transition-normal);
+}
+.top-bar a:hover{
+    color:var(--secondary-color);
+}
+/* ==========================================
+   TOP BAR ICONS
+========================================== */
+.top-bar i{
+    margin-right:8px;
+    color:var(--secondary-color);
+}
+/* ==========================================
+   SOCIAL LINKS
+========================================== */
+.social-links{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+.social-links a{
+    transition:var(--transition-normal);
+}
+.social-links a:hover{
+    transform:translateY(-2px);
+}
+/* ==========================================
+   ACTIVE NAVIGATION LINK
+========================================== */
+.nav-menu a.active{
+    color:var(--primary-color);
+    font-weight:600;
+}
+.nav-menu a.active::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-8px;
+    width:100%;
+    height:3px;
+    background:var(--secondary-color);
+    border-radius:var(--radius-round);
+}
+/* ==========================================
+   NAVIGATION HOVER EFFECT
+========================================== */
+.nav-menu a{
+    position:relative;
+}
+.nav-menu a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-8px;
+    width:0;
+    height:3px;
+    background:var(--secondary-color);
+    transition:var(--transition-normal);
+    border-radius:var(--radius-round);
+}
+.nav-menu a:hover::after{
+    width:100%;
+}
+/* ==========================================
+   NAVIGATION CTA
+========================================== */
+.nav-cta{
+    margin-left:24px;
+}
+/* ==========================================
+   LOGO HOVER
+========================================== */
+.logo{
+    transition:var(--transition-normal);
+}
+.logo:hover{
+    opacity:.9;
+}
+/* ==========================================
+   STICKY HEADER EFFECT
+========================================== */
+.header{
+    transition:var(--transition-normal);
+}
+/* ==========================================
+   MOBILE MENU BUTTON
+========================================== */
+.menu-toggle{
+    display:none;
+    background:none;
+    color:var(--primary-color);
+    font-size:2rem;
+}
+/* ==========================================
+   NAVIGATION WRAPPER
+========================================== */
+.nav-wrapper{
+    display:flex;
+    align-items:center;
+    gap:40px;
+}
+
+/* ==========================================
+   HERO SECTION
+========================================== */
+.hero{
+    position:relative;
+    min-height:100vh;
+    background-image:
+    linear-gradient(var(--hero-overlay),var(--hero-overlay)),
+    url("../images/hero/hero-bg.png");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    display:flex;
+    align-items:center;
+}
+/* ==========================================
+   HERO OVERLAY
+========================================== */
+.hero-overlay{
+    width:100%;
+    padding:140px 0 100px;
+}
+/* ==========================================
+   HERO CONTENT
+========================================== */
+.hero-content{
+    max-width:720px;
+}
+/* ==========================================
+   HERO TAGLINE
+========================================== */
+.hero-tagline{
+    display:inline-block;
+    margin-bottom:20px;
+    padding:8px 18px;
+    background:rgba(255,255,255,.12);
+    border-radius:var(--radius-round);
+    color:var(--secondary-color);
+    font-family:var(--heading-font);
+    font-weight:600;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+/* ==========================================
+   HERO TITLE
+========================================== */
+.hero-title{
+    font-size:4rem;
+    line-height:1.15;
+    color:var(--surface-color);
+    margin-bottom:28px;
+}
+/* ==========================================
+   HERO DESCRIPTION
+========================================== */
+.hero-description{
+    font-size:1.15rem;
+    color:rgba(255,255,255,.90);
+    max-width:680px;
+    margin-bottom:40px;
+    line-height:1.8;
+}
+/* ==========================================
+   HERO BUTTONS
+========================================== */
+.hero-buttons{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
 }
