@@ -1,0 +1,401 @@
+/* ==========================================
+   NABCORE PRIME
+   RESPONSIVE SYSTEM
+   responsive.css
+========================================== */
+
+
+/* ==========================================
+   LARGE TABLETS / SMALL DESKTOP
+   1200px
+========================================== */
+
+@media (max-width:1200px){
+
+    .container{
+        padding-left:24px;
+        padding-right:24px;
+    }
+
+    .nav-menu{
+        gap:24px;
+    }
+
+    .hero-title{
+        font-size:clamp(2.8rem,6vw,4.5rem);
+    }
+
+}
+
+
+/* ==========================================
+   TABLET
+   992px
+========================================== */
+
+@media (max-width:992px){
+
+    /* ==========================
+       HEADER
+    ========================== */
+
+    .header-wrapper{
+        min-height:80px;
+    }
+
+    .nav-menu{
+        gap:20px;
+    }
+
+    .nav-menu a{
+        font-size:.9rem;
+    }
+
+    .nav-cta{
+        margin-left:12px;
+    }
+
+
+    /* ==========================
+       HERO
+    ========================== */
+
+    .hero{
+        min-height:85vh;
+    }
+
+    .hero-overlay{
+        padding:110px 0 80px;
+    }
+
+    .hero-title{
+        font-size:clamp(2.6rem,6vw,4rem);
+    }
+
+    .hero-description{
+        font-size:1.05rem;
+    }
+
+
+    /* ==========================
+       SECTION TITLES
+    ========================== */
+
+    .section-title{
+        font-size:2.4rem;
+    }
+
+
+    /* ==========================
+       SERVICES
+    ========================== */
+
+    .services-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:24px;
+        margin-top:48px;
+    }
+
+
+    /* ==========================
+       INDUSTRIES
+    ========================== */
+
+    .industries{
+        padding:80px 0;
+    }
+
+    .industries-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:24px;
+    }
+
+}
+
+
+/* ==========================================
+   MOBILE NAVIGATION
+   768px
+========================================== */
+
+@media (max-width:768px){
+
+    /* ==========================
+       TOP BAR
+    ========================== */
+
+    .top-bar-wrapper{
+        flex-direction:column;
+        justify-content:center;
+        gap:8px;
+        padding:10px 0;
+    }
+
+    .top-bar-left,
+    .top-bar-right{
+        justify-content:center;
+        flex-wrap:wrap;
+        gap:12px 20px;
+    }
+
+
+    /* ==========================
+       HEADER
+    ========================== */
+
+    .header-wrapper{
+        min-height:76px;
+    }
+
+    .logo{
+        font-size:1.4rem;
+    }
+
+    .nav-menu{
+        display:none;
+    }
+
+    .nav-cta{
+        display:none;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+
+    /* ==========================
+       HERO
+    ========================== */
+
+    .hero{
+        min-height:auto;
+    }
+
+    .hero-overlay{
+        padding:100px 0 80px;
+    }
+
+    .hero-content{
+        max-width:100%;
+    }
+
+    .hero-tagline{
+        font-size:.75rem;
+        line-height:1.5;
+        padding:7px 14px;
+        letter-spacing:.8px;
+    }
+
+    .hero-title{
+        font-size:clamp(2.3rem,9vw,3.4rem);
+        line-height:1.12;
+        margin-bottom:22px;
+    }
+
+    .hero-description{
+        font-size:1rem;
+        line-height:1.7;
+        margin-bottom:30px;
+    }
+
+    .hero-buttons{
+        gap:12px;
+    }
+
+    .hero-buttons .btn{
+        width:100%;
+    }
+
+
+    /* ==========================
+       GLOBAL SECTIONS
+    ========================== */
+
+    section{
+        padding:70px 0;
+    }
+
+    .section-title{
+        font-size:2.1rem;
+    }
+
+    .section-subtitle{
+        font-size:1rem;
+        line-height:1.7;
+    }
+
+
+    /* ==========================
+       SERVICES
+    ========================== */
+
+    .services-grid{
+        grid-template-columns:1fr;
+        gap:24px;
+        margin-top:40px;
+    }
+
+
+    /* ==========================
+       CARDS
+    ========================== */
+
+    .card-image img{
+        height:220px;
+    }
+
+
+    /* ==========================
+       INDUSTRIES
+    ========================== */
+
+    .industries{
+        padding:70px 0;
+    }
+
+    .section-heading{
+        margin-bottom:40px;
+    }
+
+    .section-heading h2{
+        font-size:2.1rem;
+    }
+
+    .industries-grid{
+        grid-template-columns:1fr;
+        gap:20px;
+    }
+
+    .industry-card{
+        padding:30px 24px;
+    }
+
+}
+
+
+/* ==========================================
+   SMALL MOBILE
+   576px
+========================================== */
+
+@media (max-width:576px){
+
+    .container{
+        padding-left:18px;
+        padding-right:18px;
+    }
+
+
+    /* ==========================
+       TOP BAR
+    ========================== */
+
+    .top-bar{
+        font-size:.8rem;
+    }
+
+
+    /* ==========================
+       LOGO
+    ========================== */
+
+    .logo{
+        font-size:1.25rem;
+    }
+
+
+    /* ==========================
+       HERO
+    ========================== */
+
+    .hero-overlay{
+        padding:85px 0 70px;
+    }
+
+    .hero-title{
+        font-size:clamp(2.1rem,10vw,3rem);
+    }
+
+    .hero-description{
+        font-size:.95rem;
+    }
+
+
+    /* ==========================
+       BUTTONS
+    ========================== */
+
+    .btn{
+        width:100%;
+        padding:13px 22px;
+        font-size:.95rem;
+    }
+
+
+    /* ==========================
+       SECTION TITLES
+    ========================== */
+
+    .section-title{
+        font-size:1.9rem;
+    }
+
+    .section-subtitle{
+        font-size:.95rem;
+    }
+
+
+    /* ==========================
+       SERVICES
+    ========================== */
+
+    .service-card img{
+        height:210px;
+    }
+
+
+    /* ==========================
+       INDUSTRIES
+    ========================== */
+
+    .section-heading h2{
+        font-size:1.9rem;
+    }
+
+    .section-heading p{
+        font-size:.95rem;
+    }
+
+    .industry-card{
+        padding:26px 20px;
+    }
+
+}
+
+
+/* ==========================================
+   EXTRA SMALL DEVICES
+   400px
+========================================== */
+
+@media (max-width:400px){
+
+    .container{
+        padding-left:16px;
+        padding-right:16px;
+    }
+
+    .hero-title{
+        font-size:2rem;
+    }
+
+    .hero-tagline{
+        font-size:.7rem;
+    }
+
+    .section-title{
+        font-size:1.75rem;
+    }
+
+}

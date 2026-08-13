@@ -1,0 +1,138 @@
+/* ==========================================
+   NABCORE PRIME
+   GLOBAL LAYOUT SYSTEM
+   layout.css
+========================================== */
+
+
+/* ==========================================
+   CONTAINER
+========================================== */
+
+.container{
+    width:100%;
+    max-width:var(--container-width);
+    margin:0 auto;
+    padding:0 20px;
+}
+
+
+/* ==========================================
+   SECTION
+========================================== */
+
+section{
+    width:100%;
+    padding:var(--space-3xl) 0;
+}
+
+
+/* ==========================================
+   SECTION INNER WRAPPER
+========================================== */
+
+.section-inner{
+    width:100%;
+    max-width:var(--container-width);
+    margin:0 auto;
+}
+
+
+/* ==========================================
+   GRID SYSTEM
+========================================== */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(
+        auto-fit,
+        minmax(300px,1fr)
+    );
+    gap:var(--space-lg);
+}
+
+
+/* ==========================================
+   FLEX SYSTEM
+========================================== */
+
+.flex{
+    display:flex;
+}
+
+
+/* ==========================================
+   FLEX CENTER
+========================================== */
+
+.flex-center{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+
+/* ==========================================
+   FLEX BETWEEN
+========================================== */
+
+.flex-between{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+
+/* ==========================================
+   FLEX COLUMN
+========================================== */
+
+.flex-column{
+    display:flex;
+    flex-direction:column;
+}
+
+
+/* ==========================================
+   FLEX WRAP
+========================================== */
+
+.flex-wrap{
+    flex-wrap:wrap;
+}
+
+
+/* ==========================================
+   ALIGN CENTER
+========================================== */
+
+.align-center{
+    align-items:center;
+}
+
+
+/* ==========================================
+   JUSTIFY CENTER
+========================================== */
+
+.justify-center{
+    justify-content:center;
+}
+
+
+/* ==========================================
+   JUSTIFY BETWEEN
+========================================== */
+
+.justify-between{
+    justify-content:space-between;
+}
+
+
+/* ==========================================
+   FULL WIDTH
+========================================== */
+
+.w-full{
+    width:100%;
+}

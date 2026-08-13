@@ -1,0 +1,227 @@
+/* ==========================================
+   NABCORE PRIME
+   ANIMATION & MOTION SYSTEM
+   animations.css
+========================================== */
+
+
+/* ==========================================
+   FADE UP
+========================================== */
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+
+/* ==========================================
+   FADE DOWN
+========================================== */
+
+@keyframes fadeDown{
+
+    from{
+        opacity:0;
+        transform:translateY(-30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+
+/* ==========================================
+   FADE LEFT
+========================================== */
+
+@keyframes fadeLeft{
+
+    from{
+        opacity:0;
+        transform:translateX(40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+
+}
+
+
+/* ==========================================
+   FADE RIGHT
+========================================== */
+
+@keyframes fadeRight{
+
+    from{
+        opacity:0;
+        transform:translateX(-40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+
+}
+
+
+/* ==========================================
+   FADE IN
+========================================== */
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
+
+}
+
+
+/* ==========================================
+   SCALE IN
+========================================== */
+
+@keyframes scaleIn{
+
+    from{
+        opacity:0;
+        transform:scale(.94);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+
+}
+
+
+/* ==========================================
+   FLOAT
+========================================== */
+
+@keyframes float{
+
+    0%,
+    100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+
+}
+
+
+/* ==========================================
+   ANIMATION UTILITY
+========================================== */
+
+.animate-fade-up{
+    animation:fadeUp .8s ease both;
+}
+
+
+.animate-fade-down{
+    animation:fadeDown .8s ease both;
+}
+
+
+.animate-fade-left{
+    animation:fadeLeft .8s ease both;
+}
+
+
+.animate-fade-right{
+    animation:fadeRight .8s ease both;
+}
+
+
+.animate-fade-in{
+    animation:fadeIn .8s ease both;
+}
+
+
+.animate-scale-in{
+    animation:scaleIn .8s ease both;
+}
+
+
+.animate-float{
+    animation:float 3s ease-in-out infinite;
+}
+
+
+/* ==========================================
+   ANIMATION DELAYS
+========================================== */
+
+.delay-100{
+    animation-delay:.1s;
+}
+
+
+.delay-200{
+    animation-delay:.2s;
+}
+
+
+.delay-300{
+    animation-delay:.3s;
+}
+
+
+.delay-400{
+    animation-delay:.4s;
+}
+
+
+.delay-500{
+    animation-delay:.5s;
+}
+
+
+.delay-600{
+    animation-delay:.6s;
+}
+
+
+/* ==========================================
+   REDUCED MOTION
+   ACCESSIBILITY
+========================================== */
+
+@media (prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        scroll-behavior:auto !important;
+        transition-duration:.01ms !important;
+    }
+
+}

@@ -1,0 +1,168 @@
+/* ==========================================
+   NABCORE PRIME
+   GLOBAL BASE STYLES
+   base.css
+========================================== */
+
+
+/* ==========================================
+   BODY
+========================================== */
+
+body{
+    min-height:100vh;
+    font-family:var(--body-font);
+    background-color:var(--background-color);
+    color:var(--text-color);
+    line-height:1.6;
+    font-size:16px;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+}
+
+
+/* ==========================================
+   HEADINGS
+========================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+    font-family:var(--heading-font);
+    color:var(--heading-color);
+    font-weight:700;
+    line-height:1.2;
+}
+
+
+/* ==========================================
+   HEADING SIZES
+========================================== */
+
+h1{
+    font-size:clamp(2.5rem,5vw,4.5rem);
+}
+
+h2{
+    font-size:clamp(2rem,4vw,3rem);
+}
+
+h3{
+    font-size:clamp(1.5rem,3vw,2rem);
+}
+
+h4{
+    font-size:1.35rem;
+}
+
+h5{
+    font-size:1.15rem;
+}
+
+h6{
+    font-size:1rem;
+}
+
+
+/* ==========================================
+   PARAGRAPHS
+========================================== */
+
+p{
+    color:var(--text-color);
+    line-height:1.7;
+}
+
+
+/* ==========================================
+   STRONG TEXT
+========================================== */
+
+strong,
+b{
+    font-weight:700;
+}
+
+
+/* ==========================================
+   SMALL TEXT
+========================================== */
+
+small{
+    font-size:.875rem;
+}
+
+
+/* ==========================================
+   LINKS
+========================================== */
+
+a{
+    color:inherit;
+    transition:var(--transition-normal);
+}
+
+
+/* ==========================================
+   IMAGES
+========================================== */
+
+img{
+    height:auto;
+}
+
+
+/* ==========================================
+   FORM ELEMENTS
+========================================== */
+
+input,
+textarea,
+select{
+    width:100%;
+    color:var(--text-color);
+    background:var(--surface-color);
+}
+
+
+/* ==========================================
+   TEXTAREA
+========================================== */
+
+textarea{
+    resize:vertical;
+}
+
+
+/* ==========================================
+   PLACEHOLDER TEXT
+========================================== */
+
+::placeholder{
+    color:var(--muted-text);
+    opacity:1;
+}
+
+
+/* ==========================================
+   FOCUS STATE
+========================================== */
+
+:focus-visible{
+    outline:3px solid rgba(212,160,23,.45);
+    outline-offset:3px;
+}
+
+
+/* ==========================================
+   TEXT SELECTION
+========================================== */
+
+::selection{
+    background:var(--primary-color);
+    color:var(--surface-color);
+}

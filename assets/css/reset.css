@@ -1,75 +1,115 @@
 /* ==========================================
-   NABCORE PRIME LIMITED
-   MASTER STYLESHEET
-   style.css
+   NABCORE PRIME
+   CSS RESET
+   reset.css
 ========================================== */
 
 
 /* ==========================================
-   01. DESIGN TOKENS
+   UNIVERSAL RESET
 ========================================== */
 
-@import url("./variables.css");
+*,
+*::before,
+*::after{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
 
 /* ==========================================
-   02. CSS RESET
+   DOCUMENT
 ========================================== */
 
-@import url("./reset.css");
+html{
+    scroll-behavior:smooth;
+}
 
 
 /* ==========================================
-   03. BASE STYLES
+   MEDIA
 ========================================== */
 
-@import url("./base.css");
+img,
+picture,
+video,
+canvas,
+svg{
+    display:block;
+    max-width:100%;
+}
 
 
 /* ==========================================
-   04. LAYOUT SYSTEM
+   LINKS
 ========================================== */
 
-@import url("./layout.css");
+a{
+    text-decoration:none;
+    color:inherit;
+}
 
 
 /* ==========================================
-   05. REUSABLE COMPONENTS
+   LISTS
 ========================================== */
 
-@import url("./components.css");
+ul,
+ol{
+    list-style:none;
+}
 
 
 /* ==========================================
-   06. HEADER & NAVIGATION
+   FORM ELEMENTS
 ========================================== */
 
-@import url("./header.css");
+button,
+input,
+textarea,
+select{
+    font:inherit;
+}
 
 
 /* ==========================================
-   07. HERO
+   BUTTON
 ========================================== */
 
-@import url("./hero.css");
+button{
+    cursor:pointer;
+}
 
 
 /* ==========================================
-   08. HOMEPAGE SECTIONS
+   TABLES
 ========================================== */
 
-@import url("./sections.css");
+table{
+    border-collapse:collapse;
+    border-spacing:0;
+}
 
 
 /* ==========================================
-   09. ANIMATIONS
+   HEADINGS
 ========================================== */
 
-@import url("./animations.css");
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+    margin:0;
+}
 
 
 /* ==========================================
-   10. RESPONSIVE SYSTEM
+   PARAGRAPHS
 ========================================== */
 
-@import url("./responsive.css");
+p{
+    margin:0;
+}
