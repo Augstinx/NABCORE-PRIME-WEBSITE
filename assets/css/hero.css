@@ -13,7 +13,7 @@
     position:relative;
 
     width:100%;
-    min-height:100vh;
+    min-height:calc(100vh - 154px);
 
     display:flex;
     align-items:center;
@@ -38,7 +38,7 @@
 .hero-overlay{
     width:100%;
 
-    padding:140px 0 100px;
+    padding:65px 0 60px;
 }
 
 
@@ -48,7 +48,7 @@
 
 .hero-content{
     width:100%;
-    max-width:720px;
+    max-width:1180px;
 }
 
 
@@ -86,17 +86,18 @@
 ========================================== */
 
 .hero-title{
-    max-width:900px;
+    max-width:1120px;
 
     margin-bottom:var(--space-md);
 
     color:var(--surface-color);
 
     font-family:var(--heading-font);
-    font-size:clamp(3rem,6vw,5rem);
+    font-size:clamp(2.7rem,4.35vw,3.75rem);
     font-weight:700;
 
-    line-height:1.15;
+    line-height:1.12;
+    letter-spacing:-.025em;
 }
 
 
@@ -105,14 +106,14 @@
 ========================================== */
 
 .hero-description{
-    max-width:680px;
+    max-width:760px;
 
-    margin-bottom:var(--space-xl);
+    margin-bottom:var(--space-lg);
 
     color:rgba(255,255,255,.90);
 
-    font-size:1.15rem;
-    line-height:1.8;
+    font-size:1.05rem;
+    line-height:1.7;
 }
 
 
@@ -127,4 +128,19 @@
     gap:var(--space-sm);
 
     flex-wrap:wrap;
+}
+/* ==========================================
+   HERO OUTLINE BUTTON
+========================================== */
+
+.hero .btn-outline{
+    border-color:rgba(255,255,255,.85);
+    color:var(--surface-color);
+    background:rgba(255,255,255,.06);
+}
+
+.hero .btn-outline:hover{
+    background:var(--surface-color);
+    border-color:var(--surface-color);
+    color:var(--primary-color);
 }
