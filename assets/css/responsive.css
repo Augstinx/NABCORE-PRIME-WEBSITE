@@ -44,8 +44,10 @@
         max-width:100%;
     }
 
+
     .hero-title{
         max-width:950px;
+
         font-size:clamp(
             2.7rem,
             5vw,
@@ -83,6 +85,7 @@
 
     .header-wrapper{
         min-height:80px;
+
         gap:var(--space-md);
     }
 
@@ -106,6 +109,7 @@
         margin-left:4px;
 
         min-height:44px;
+
         padding:12px 18px;
 
         font-size:.9rem;
@@ -146,6 +150,7 @@
         max-width:680px;
 
         font-size:1rem;
+
         line-height:1.7;
     }
 
@@ -164,7 +169,11 @@
     =========================================== */
 
     .services-grid{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:repeat(
+            2,
+            minmax(0,1fr)
+        );
+
         gap:24px;
     }
 
@@ -174,7 +183,12 @@
     =========================================== */
 
     .products-grid{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:repeat(
+            2,
+            minmax(0,1fr)
+        );
+
+        gap:24px;
     }
 
 
@@ -183,7 +197,12 @@
     =========================================== */
 
     .why-us-grid{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:repeat(
+            2,
+            minmax(0,1fr)
+        );
+
+        gap:24px;
     }
 
 
@@ -193,6 +212,7 @@
 
     .partnership-content{
         grid-template-columns:1fr 1fr;
+
         gap:var(--space-xl);
     }
 
@@ -202,7 +222,12 @@
     =========================================== */
 
     .projects-grid{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:repeat(
+            2,
+            minmax(0,1fr)
+        );
+
+        gap:24px;
     }
 
 
@@ -211,7 +236,12 @@
     =========================================== */
 
     .industries-grid{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:repeat(
+            2,
+            minmax(0,1fr)
+        );
+
+        gap:24px;
     }
 
 
@@ -220,7 +250,10 @@
     =========================================== */
 
     .statistics-grid{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:repeat(
+            2,
+            minmax(0,1fr)
+        );
     }
 
 }
@@ -256,6 +289,7 @@
         min-height:auto;
 
         flex-direction:column;
+
         justify-content:center;
 
         gap:6px;
@@ -278,7 +312,18 @@
        HEADER
     =========================================== */
 
+    .header{
+        position:sticky;
+
+        top:0;
+
+        z-index:var(--z-sticky);
+    }
+
+
     .header-wrapper{
+        position:relative;
+
         min-height:74px;
     }
 
@@ -288,18 +333,140 @@
     }
 
 
-    .nav-menu{
+    /* ==========================================
+       DESKTOP NAVIGATION RESET
+    =========================================== */
+
+    .main-navigation{
+        display:block;
+    }
+
+
+    /* ==========================================
+       MOBILE NAVIGATION
+    =========================================== */
+
+    .main-navigation{
+        position:absolute;
+
+        top:100%;
+        left:0;
+
+        width:100%;
+
+        display:none;
+
+        background:var(--surface-color);
+
+        border-top:1px solid var(--border-color);
+
+        box-shadow:var(--shadow-md);
+
+        z-index:var(--z-dropdown);
+    }
+
+
+    /* ==========================================
+       MOBILE NAVIGATION OPEN
+    =========================================== */
+
+    .main-navigation.is-open{
+        display:block;
+    }
+
+
+    /* ==========================================
+       MOBILE NAVIGATION MENU
+    =========================================== */
+
+    .main-navigation .nav-menu{
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+        gap:0;
+
+        width:100%;
+
+        padding:12px 20px 20px;
+    }
+
+
+    /* ==========================================
+       MOBILE NAVIGATION ITEMS
+    =========================================== */
+
+    .main-navigation .nav-menu li{
+        width:100%;
+    }
+
+
+    /* ==========================================
+       MOBILE NAVIGATION LINKS
+    =========================================== */
+
+    .main-navigation .nav-menu a{
+        display:flex;
+
+        width:100%;
+
+        align-items:center;
+
+        padding:15px 4px;
+
+        border-bottom:1px solid var(--border-color);
+
+        font-size:1rem;
+    }
+
+
+    /* ==========================================
+       MOBILE NAVIGATION LAST LINK
+    =========================================== */
+
+    .main-navigation .nav-menu li:last-child a{
+        border-bottom:none;
+    }
+
+
+    /* ==========================================
+       MOBILE ACTIVE NAVIGATION
+    =========================================== */
+
+    .main-navigation .nav-menu a.active{
+        color:var(--primary-color);
+
+        font-weight:600;
+    }
+
+
+    /* ==========================================
+       MOBILE NAVIGATION UNDERLINE
+    =========================================== */
+
+    .main-navigation .nav-menu a::after{
         display:none;
     }
 
+
+    /* ==========================================
+       DESKTOP CTA HIDDEN
+    =========================================== */
 
     .nav-cta{
         display:none;
     }
 
 
+    /* ==========================================
+       MOBILE MENU BUTTON
+    =========================================== */
+
     .menu-toggle{
         display:flex;
+
         flex-shrink:0;
     }
 
@@ -333,6 +500,7 @@
         font-size:.72rem;
 
         letter-spacing:.7px;
+
         line-height:1.5;
     }
 
@@ -358,6 +526,7 @@
         margin-bottom:28px;
 
         font-size:1rem;
+
         line-height:1.7;
     }
 
@@ -366,6 +535,7 @@
         width:100%;
 
         flex-direction:column;
+
         align-items:stretch;
 
         gap:12px;
@@ -508,7 +678,10 @@
     =========================================== */
 
     .statistics-grid{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:repeat(
+            2,
+            minmax(0,1fr)
+        );
 
         gap:0;
     }
@@ -517,8 +690,19 @@
     .statistic-item{
         padding:28px 18px;
 
-        border-right:1px solid rgba(255,255,255,.18);
-        border-bottom:1px solid rgba(255,255,255,.18);
+        border-right:1px solid rgba(
+            255,
+            255,
+            255,
+            .18
+        );
+
+        border-bottom:1px solid rgba(
+            255,
+            255,
+            255,
+            .18
+        );
     }
 
 
@@ -588,6 +772,27 @@
     }
 
 
+    /* ==========================================
+       MOBILE NAVIGATION
+    =========================================== */
+
+    .main-navigation .nav-menu{
+        padding-left:18px;
+        padding-right:18px;
+    }
+
+
+    .main-navigation .nav-menu a{
+        padding:14px 4px;
+
+        font-size:.95rem;
+    }
+
+
+    /* ==========================================
+       MOBILE MENU BUTTON
+    =========================================== */
+
     .menu-toggle{
         width:42px;
         height:42px;
@@ -609,6 +814,7 @@
         max-width:100%;
 
         font-size:.68rem;
+
         letter-spacing:.55px;
 
         text-align:center;
@@ -628,6 +834,7 @@
 
     .hero-description{
         font-size:.95rem;
+
         line-height:1.7;
     }
 
@@ -706,7 +913,13 @@
     .statistic-item,
     .statistic-item:nth-child(2n){
         border-right:none;
-        border-bottom:1px solid rgba(255,255,255,.18);
+
+        border-bottom:1px solid rgba(
+            255,
+            255,
+            255,
+            .18
+        );
     }
 
 
@@ -754,6 +967,23 @@
 
     .logo{
         font-size:1.1rem;
+    }
+
+
+    /* ==========================================
+       MOBILE NAVIGATION
+    =========================================== */
+
+    .main-navigation .nav-menu{
+        padding-left:16px;
+        padding-right:16px;
+    }
+
+
+    .main-navigation .nav-menu a{
+        padding:13px 4px;
+
+        font-size:.92rem;
     }
 
 
@@ -806,6 +1036,20 @@
     .service-card img,
     .card-image img{
         height:200px;
+    }
+
+}
+
+
+/* ==========================================
+   ACCESSIBILITY
+   REDUCED MOTION
+========================================== */
+
+@media (prefers-reduced-motion:reduce){
+
+    .main-navigation{
+        transition:none;
     }
 
 }

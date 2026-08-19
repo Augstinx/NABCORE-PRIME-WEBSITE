@@ -1,0 +1,509 @@
+/* ==========================================
+   NABCORE PRIME LIMITED
+   FORM SYSTEM
+   forms.css
+========================================== */
+
+
+/* ==========================================
+   FORM WRAPPER
+========================================== */
+
+.form-wrapper{
+    width:100%;
+}
+
+
+/* ==========================================
+   FORM GROUP
+========================================== */
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+
+    gap:8px;
+
+    margin-bottom:var(--space-md);
+}
+
+
+.form-group:last-child{
+    margin-bottom:0;
+}
+
+
+/* ==========================================
+   FORM LABEL
+========================================== */
+
+.form-label{
+    color:var(--heading-color);
+
+    font-family:var(--heading-font);
+    font-size:.95rem;
+    font-weight:600;
+
+    line-height:1.4;
+}
+
+
+.form-label .required{
+    color:var(--accent-color);
+}
+
+
+/* ==========================================
+   FORM INPUTS
+========================================== */
+
+.form-control{
+    width:100%;
+
+    min-height:52px;
+
+    padding:13px 16px;
+
+    background:var(--surface-color);
+
+    border:1px solid var(--border-color);
+    border-radius:var(--radius-sm);
+
+    color:var(--text-color);
+
+    font-family:var(--body-font);
+    font-size:1rem;
+    line-height:1.5;
+
+    outline:none;
+
+    transition:
+        border-color var(--transition-normal),
+        box-shadow var(--transition-normal),
+        background-color var(--transition-normal);
+}
+
+
+/* ==========================================
+   TEXTAREA
+========================================== */
+
+textarea.form-control{
+    min-height:160px;
+
+    resize:vertical;
+}
+
+
+/* ==========================================
+   SELECT
+========================================== */
+
+select.form-control{
+    cursor:pointer;
+
+    appearance:auto;
+}
+
+
+/* ==========================================
+   INPUT HOVER
+========================================== */
+
+.form-control:hover{
+    border-color:#CBD5E1;
+}
+
+
+/* ==========================================
+   INPUT FOCUS
+========================================== */
+
+.form-control:focus{
+    border-color:var(--primary-color);
+
+    box-shadow:
+        0 0 0 3px rgba(11,46,89,.10);
+}
+
+
+/* ==========================================
+   INVALID INPUT
+========================================== */
+
+.form-control.is-invalid{
+    border-color:var(--accent-color);
+
+    box-shadow:
+        0 0 0 3px rgba(249,115,22,.10);
+}
+
+
+/* ==========================================
+   VALID INPUT
+========================================== */
+
+.form-control.is-valid{
+    border-color:var(--success-color);
+
+    box-shadow:
+        0 0 0 3px rgba(22,163,74,.10);
+}
+
+
+/* ==========================================
+   FIELD ERROR
+========================================== */
+
+.form-error{
+    display:none;
+
+    margin-top:2px;
+
+    color:#C2410C;
+
+    font-size:.85rem;
+    line-height:1.5;
+}
+
+
+.form-error.is-visible{
+    display:block;
+}
+
+
+/* ==========================================
+   FIELD SUCCESS MESSAGE
+========================================== */
+
+.form-success{
+    display:none;
+
+    margin-top:2px;
+
+    color:var(--success-color);
+
+    font-size:.85rem;
+    line-height:1.5;
+}
+
+
+.form-success.is-visible{
+    display:block;
+}
+
+
+/* ==========================================
+   FORM ROW
+========================================== */
+
+.form-row{
+    display:grid;
+
+    grid-template-columns:repeat(
+        2,
+        minmax(0,1fr)
+    );
+
+    gap:var(--space-md);
+}
+
+
+/* ==========================================
+   CHECKBOX GROUP
+========================================== */
+
+.form-checkbox{
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:10px;
+}
+
+
+.form-checkbox input{
+    width:18px;
+    height:18px;
+
+    flex-shrink:0;
+
+    margin-top:3px;
+
+    accent-color:var(--primary-color);
+
+    cursor:pointer;
+}
+
+
+.form-checkbox label{
+    color:var(--text-color);
+
+    font-size:.9rem;
+    line-height:1.6;
+
+    cursor:pointer;
+}
+
+
+/* ==========================================
+   FORM HELP TEXT
+========================================== */
+
+.form-help{
+    color:var(--muted-text);
+
+    font-size:.82rem;
+    line-height:1.5;
+}
+
+
+/* ==========================================
+   FORM ACTIONS
+========================================== */
+
+.form-actions{
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--space-sm);
+
+    margin-top:var(--space-lg);
+}
+
+
+.form-actions .btn{
+    flex-shrink:0;
+}
+
+
+/* ==========================================
+   FORM STATUS
+========================================== */
+
+.form-status{
+    display:none;
+
+    width:100%;
+
+    margin-top:var(--space-md);
+
+    padding:14px 16px;
+
+    border-radius:var(--radius-sm);
+
+    font-size:.9rem;
+    line-height:1.6;
+}
+
+
+.form-status.is-visible{
+    display:block;
+}
+
+
+/* ==========================================
+   SUCCESS STATUS
+========================================== */
+
+.form-status.success{
+    background:rgba(22,163,74,.10);
+
+    border:1px solid rgba(22,163,74,.25);
+
+    color:#166534;
+}
+
+
+/* ==========================================
+   ERROR STATUS
+========================================== */
+
+.form-status.error{
+    background:rgba(249,115,22,.10);
+
+    border:1px solid rgba(249,115,22,.25);
+
+    color:#9A3412;
+}
+
+
+/* ==========================================
+   LOADING STATE
+========================================== */
+
+.form-submit.is-loading{
+    position:relative;
+
+    pointer-events:none;
+
+    opacity:.75;
+}
+
+
+/* ==========================================
+   LOADING SPINNER
+========================================== */
+
+.form-submit.is-loading::after{
+    content:"";
+
+    width:16px;
+    height:16px;
+
+    margin-left:8px;
+
+    border:2px solid rgba(255,255,255,.45);
+    border-top-color:var(--surface-color);
+
+    border-radius:50%;
+
+    animation:formSpinner .7s linear infinite;
+}
+
+
+@keyframes formSpinner{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+
+/* ==========================================
+   DISABLED FORM CONTROLS
+========================================== */
+
+.form-control:disabled,
+.form-submit:disabled{
+    cursor:not-allowed;
+
+    opacity:.65;
+}
+
+
+/* ==========================================
+   CONTACT FORM
+========================================== */
+
+.contact-form{
+    width:100%;
+
+    padding:var(--space-xl);
+
+    background:var(--surface-color);
+
+    border:1px solid var(--border-color);
+
+    border-radius:var(--radius-lg);
+
+    box-shadow:var(--shadow-md);
+}
+
+
+/* ==========================================
+   CONTACT FORM HEADING
+========================================== */
+
+.contact-form h2{
+    margin-bottom:var(--space-xs);
+
+    color:var(--primary-color);
+
+    font-size:clamp(
+        1.75rem,
+        4vw,
+        2.25rem
+    );
+}
+
+
+.contact-form > p{
+    margin-bottom:var(--space-lg);
+
+    color:var(--muted-text);
+
+    line-height:1.7;
+}
+
+
+/* ==========================================
+   CONTACT FORM SUBMIT
+========================================== */
+
+.contact-form .form-submit{
+    width:auto;
+}
+
+
+/* ==========================================
+   REQUIRED FIELD INDICATOR
+========================================== */
+
+.required{
+    color:var(--accent-color);
+}
+
+
+/* ==========================================
+   RESPONSIVE FORM SYSTEM
+========================================== */
+
+@media(max-width:768px){
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+
+
+    .contact-form{
+        padding:var(--space-lg);
+    }
+
+
+    .form-actions{
+        flex-direction:column;
+
+        align-items:stretch;
+    }
+
+
+    .form-actions .btn{
+        width:100%;
+    }
+
+
+    .contact-form .form-submit{
+        width:100%;
+    }
+
+}
+
+
+@media(max-width:576px){
+
+    .contact-form{
+        padding:var(--space-md);
+    }
+
+
+    .form-control{
+        min-height:50px;
+
+        padding:12px 14px;
+
+        font-size:.95rem;
+    }
+
+
+    textarea.form-control{
+        min-height:140px;
+    }
+
+}
