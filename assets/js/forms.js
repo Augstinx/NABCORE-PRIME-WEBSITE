@@ -251,34 +251,28 @@ function serializeForm(form){
 
 }
 
-
 /* ==========================================
    SEND FORM
 ========================================== */
 
 async function submitForm(form){
 
+    const formData =
+        new FormData(form);
+
+
     const response =
         await fetch(
             FORM_CONFIG.endpoint,
             {
-                method:
-                    "POST",
+                method:"POST",
 
-                headers: {
-                    "Content-Type":
-                        "application/json",
-
+                headers:{
                     "Accept":
                         "application/json"
                 },
 
-                body:
-                    JSON.stringify(
-                        serializeForm(
-                            form
-                        )
-                    )
+                body:formData
             }
         );
 
@@ -316,7 +310,6 @@ async function submitForm(form){
     return result;
 
 }
-
 
 /* ==========================================
    HANDLE FORM SUBMISSION
