@@ -23,6 +23,17 @@
 
 
 /* ==========================================
+   GLOBAL RESPONSIVE SAFETY
+========================================== */
+
+html,
+body{
+    max-width:100%;
+    overflow-x:hidden;
+}
+
+
+/* ==========================================
    LARGE TABLET / SMALL DESKTOP
    MAX-WIDTH: 1200px
 ========================================== */
@@ -352,6 +363,8 @@
 
     .logo{
         font-size:1.3rem;
+
+        min-width:0;
     }
 
 
@@ -371,6 +384,13 @@
 
         display:none;
 
+        max-height:calc(
+            100vh - 74px
+        );
+
+        overflow-y:auto;
+        overflow-x:hidden;
+
         background:var(--surface-color);
 
         border-top:1px solid var(--border-color);
@@ -378,6 +398,8 @@
         box-shadow:var(--shadow-md);
 
         z-index:var(--z-dropdown);
+
+        -webkit-overflow-scrolling:touch;
     }
 
 
@@ -409,7 +431,11 @@
 
         width:100%;
 
+        margin:0;
+
         padding:12px 20px 20px;
+
+        list-style:none;
     }
 
 
@@ -419,6 +445,8 @@
 
     .main-navigation .nav-menu li{
         width:100%;
+
+        margin:0;
     }
 
 
@@ -431,6 +459,8 @@
 
         width:100%;
 
+        min-height:54px;
+
         align-items:center;
 
         padding:15px 4px;
@@ -440,6 +470,8 @@
         font-size:1rem;
 
         line-height:1.4;
+
+        text-decoration:none;
     }
 
 
@@ -486,6 +518,12 @@
     =========================================== */
 
     .menu-toggle{
+        position:relative;
+
+        z-index:calc(
+            var(--z-dropdown) + 1
+        );
+
         display:flex;
 
         flex-shrink:0;
@@ -493,6 +531,15 @@
         align-items:center;
 
         justify-content:center;
+    }
+
+
+    /* ==========================================
+       NAVIGATION OPEN BODY STATE
+    =========================================== */
+
+    body.navigation-open{
+        overflow:hidden;
     }
 
 
@@ -801,6 +848,13 @@
        MOBILE NAVIGATION
     =========================================== */
 
+    .main-navigation{
+        max-height:calc(
+            100vh - 70px
+        );
+    }
+
+
     .main-navigation .nav-menu{
         padding-left:18px;
 
@@ -809,6 +863,8 @@
 
 
     .main-navigation .nav-menu a{
+        min-height:52px;
+
         padding:14px 4px;
 
         font-size:.95rem;
@@ -1006,6 +1062,13 @@
        MOBILE NAVIGATION
     =========================================== */
 
+    .main-navigation{
+        max-height:calc(
+            100vh - 68px
+        );
+    }
+
+
     .main-navigation .nav-menu{
         padding-left:16px;
 
@@ -1014,6 +1077,8 @@
 
 
     .main-navigation .nav-menu a{
+        min-height:50px;
+
         padding:13px 4px;
 
         font-size:.92rem;
