@@ -1,13 +1,30 @@
 /* ==========================================
-   NABCORE PRIME
+   NABCORE PRIME LIMITED
    RESPONSIVE SYSTEM
+   responsive.css
+
+   RESPONSIBILITY:
+   - Responsive layout behavior
+   - Tablet adaptations
+   - Mobile navigation layout
+   - Mobile navigation open state
+   - Responsive typography
+   - Responsive grids
+   - Small-device refinements
+   - Reduced-motion accessibility
+
+   ARCHITECTURE:
+   variables.css
+        ↓
+   style.css
+        ↓
    responsive.css
 ========================================== */
 
 
 /* ==========================================
    LARGE TABLET / SMALL DESKTOP
-   1200px
+   MAX-WIDTH: 1200px
 ========================================== */
 
 @media (max-width:1200px){
@@ -60,13 +77,13 @@
 
 /* ==========================================
    TABLET / COMPACT DESKTOP
-   992px
+   MAX-WIDTH: 992px
 ========================================== */
 
 @media (max-width:992px){
 
     /* ==========================================
-       TOP BAR
+       TOP INFORMATION BAR
     =========================================== */
 
     .top-bar-wrapper{
@@ -193,7 +210,7 @@
 
 
     /* ==========================================
-       WHY US
+       WHY NABCORE PRIME
     =========================================== */
 
     .why-us-grid{
@@ -260,8 +277,11 @@
 
 
 /* ==========================================
-   MOBILE NAVIGATION
-   768px
+   MOBILE SYSTEM
+   MAX-WIDTH: 768px
+
+   This breakpoint owns the complete
+   mobile navigation system.
 ========================================== */
 
 @media (max-width:768px){
@@ -277,7 +297,7 @@
 
 
     /* ==========================================
-       TOP BAR
+       TOP INFORMATION BAR
     =========================================== */
 
     .top-bar{
@@ -325,6 +345,8 @@
         position:relative;
 
         min-height:74px;
+
+        gap:var(--space-md);
     }
 
 
@@ -334,16 +356,8 @@
 
 
     /* ==========================================
-       DESKTOP NAVIGATION RESET
-    =========================================== */
-
-    .main-navigation{
-        display:block;
-    }
-
-
-    /* ==========================================
-       MOBILE NAVIGATION
+       DESKTOP NAVIGATION
+       MOBILE RESET
     =========================================== */
 
     .main-navigation{
@@ -351,6 +365,7 @@
 
         top:100%;
         left:0;
+        right:0;
 
         width:100%;
 
@@ -367,7 +382,11 @@
 
 
     /* ==========================================
-       MOBILE NAVIGATION OPEN
+       MOBILE NAVIGATION OPEN STATE
+
+       Controlled by navigation.js:
+
+       .main-navigation.is-open
     =========================================== */
 
     .main-navigation.is-open{
@@ -419,11 +438,13 @@
         border-bottom:1px solid var(--border-color);
 
         font-size:1rem;
+
+        line-height:1.4;
     }
 
 
     /* ==========================================
-       MOBILE NAVIGATION LAST LINK
+       MOBILE LAST NAVIGATION LINK
     =========================================== */
 
     .main-navigation .nav-menu li:last-child a{
@@ -443,7 +464,7 @@
 
 
     /* ==========================================
-       MOBILE NAVIGATION UNDERLINE
+       REMOVE DESKTOP UNDERLINE EFFECT
     =========================================== */
 
     .main-navigation .nav-menu a::after{
@@ -468,6 +489,10 @@
         display:flex;
 
         flex-shrink:0;
+
+        align-items:center;
+
+        justify-content:center;
     }
 
 
@@ -620,7 +645,7 @@
 
 
     /* ==========================================
-       WHY US
+       WHY NABCORE PRIME
     =========================================== */
 
     .why-us-grid{
@@ -734,7 +759,7 @@
 
 /* ==========================================
    SMALL MOBILE
-   576px
+   MAX-WIDTH: 576px
 ========================================== */
 
 @media (max-width:576px){
@@ -750,7 +775,7 @@
 
 
     /* ==========================================
-       TOP BAR
+       TOP INFORMATION BAR
     =========================================== */
 
     .top-bar{
@@ -778,6 +803,7 @@
 
     .main-navigation .nav-menu{
         padding-left:18px;
+
         padding-right:18px;
     }
 
@@ -795,6 +821,7 @@
 
     .menu-toggle{
         width:42px;
+
         height:42px;
 
         font-size:1.6rem;
@@ -855,13 +882,17 @@
 
 
     /* ==========================================
-       SECTIONS
+       GLOBAL SECTIONS
     =========================================== */
 
     section{
         padding:60px 0;
     }
 
+
+    /* ==========================================
+       SECTION HEADINGS
+    =========================================== */
 
     .section-heading{
         margin-bottom:36px;
@@ -946,7 +977,7 @@
 
 /* ==========================================
    EXTRA SMALL DEVICES
-   400px
+   MAX-WIDTH: 400px
 ========================================== */
 
 @media (max-width:400px){
@@ -957,6 +988,7 @@
 
     .container{
         padding-left:16px;
+
         padding-right:16px;
     }
 
@@ -976,6 +1008,7 @@
 
     .main-navigation .nav-menu{
         padding-left:16px;
+
         padding-right:16px;
     }
 
@@ -984,6 +1017,19 @@
         padding:13px 4px;
 
         font-size:.92rem;
+    }
+
+
+    /* ==========================================
+       MOBILE MENU BUTTON
+    =========================================== */
+
+    .menu-toggle{
+        width:40px;
+
+        height:40px;
+
+        font-size:1.5rem;
     }
 
 
@@ -1044,12 +1090,28 @@
 /* ==========================================
    ACCESSIBILITY
    REDUCED MOTION
+
+   Keep layout/functionality intact while
+   respecting users who request less motion.
 ========================================== */
 
 @media (prefers-reduced-motion:reduce){
 
+    *,
+    *::before,
+    *::after{
+        scroll-behavior:auto !important;
+
+        animation-duration:.01ms !important;
+
+        animation-iteration-count:1 !important;
+
+        transition-duration:.01ms !important;
+    }
+
+
     .main-navigation{
-        transition:none;
+        transition:none !important;
     }
 
 }

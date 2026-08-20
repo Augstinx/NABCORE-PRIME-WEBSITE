@@ -38,7 +38,9 @@ const tabStates =
    GET TABS
 ========================================== */
 
-function getTabs(tabSystem){
+function getTabs(
+    tabSystem
+){
 
     return Array.from(
         tabSystem.querySelectorAll(
@@ -53,7 +55,9 @@ function getTabs(tabSystem){
    GET PANELS
 ========================================== */
 
-function getPanels(tabSystem){
+function getPanels(
+    tabSystem
+){
 
     return Array.from(
         tabSystem.querySelectorAll(
@@ -65,10 +69,12 @@ function getPanels(tabSystem){
 
 
 /* ==========================================
-   GET TAB ID
+   GET TARGET
 ========================================== */
 
-function getTabTargetId(tab){
+function getTabTargetId(
+    tab
+){
 
     return (
         tab.dataset.tabTarget ||
@@ -81,7 +87,7 @@ function getTabTargetId(tab){
 
 
 /* ==========================================
-   FIND PANEL
+   GET PANEL
 ========================================== */
 
 function getPanelForTab(
@@ -90,7 +96,9 @@ function getPanelForTab(
 ){
 
     const targetId =
-        getTabTargetId(tab);
+        getTabTargetId(
+            tab
+        );
 
 
     if(!targetId){
@@ -116,16 +124,15 @@ function activateTab(
 ){
 
     const tabs =
-        getTabs(tabSystem);
+        getTabs(
+            tabSystem
+        );
 
 
     const panels =
-        getPanels(tabSystem);
-
-
-    if(!selectedTab){
-        return;
-    }
+        getPanels(
+            tabSystem
+        );
 
 
     const selectedPanel =
@@ -143,19 +150,19 @@ function activateTab(
     tabs.forEach(
         (tab) => {
 
-            const isActive =
+            const active =
                 tab === selectedTab;
 
 
             tab.classList.toggle(
                 "is-active",
-                isActive
+                active
             );
 
 
             tab.setAttribute(
                 "aria-selected",
-                isActive
+                active
                     ? "true"
                     : "false"
             );
@@ -163,7 +170,7 @@ function activateTab(
 
             tab.setAttribute(
                 "tabindex",
-                isActive
+                active
                     ? "0"
                     : "-1"
             );
@@ -175,23 +182,23 @@ function activateTab(
     panels.forEach(
         (panel) => {
 
-            const isActive =
+            const active =
                 panel === selectedPanel;
 
 
             panel.classList.toggle(
                 "is-active",
-                isActive
+                active
             );
 
 
             panel.hidden =
-                !isActive;
+                !active;
 
 
             panel.setAttribute(
                 "aria-hidden",
-                isActive
+                active
                     ? "false"
                     : "true"
             );
@@ -226,10 +233,12 @@ function activateTab(
 
 
 /* ==========================================
-   HANDLE TAB CLICK
+   CLICK
 ========================================== */
 
-function handleTabClick(event){
+function handleTabClick(
+    event
+){
 
     const tab =
         event.currentTarget;
@@ -251,18 +260,19 @@ function handleTabClick(event){
 
     activateTab(
         tabSystem,
-        tab,
-        false
+        tab
     );
 
 }
 
 
 /* ==========================================
-   HANDLE KEYBOARD NAVIGATION
+   KEYBOARD
 ========================================== */
 
-function handleTabKeydown(event){
+function handleTabKeydown(
+    event
+){
 
     const tab =
         event.currentTarget;
@@ -280,7 +290,9 @@ function handleTabKeydown(event){
 
 
     const tabs =
-        getTabs(tabSystem);
+        getTabs(
+            tabSystem
+        );
 
 
     const currentIndex =
@@ -319,7 +331,8 @@ function handleTabKeydown(event){
 
             targetIndex =
                 (
-                    currentIndex - 1 +
+                    currentIndex -
+                    1 +
                     tabs.length
                 ) %
                 tabs.length;
@@ -331,7 +344,8 @@ function handleTabKeydown(event){
 
             event.preventDefault();
 
-            targetIndex = 0;
+            targetIndex =
+                0;
 
             break;
 
@@ -367,18 +381,9 @@ function handleTabKeydown(event){
     }
 
 
-    const targetTab =
-        tabs[targetIndex];
-
-
-    if(!targetTab){
-        return;
-    }
-
-
     activateTab(
         tabSystem,
-        targetTab,
+        tabs[targetIndex],
         true
     );
 
@@ -391,8 +396,7 @@ function handleTabKeydown(event){
 
 function initializeTab(
     tabSystem,
-    tab,
-    index
+    tab
 ){
 
     const panel =
@@ -407,11 +411,6 @@ function initializeTab(
     }
 
 
-    /*
-     * Generate an ID for the panel
-     * when one does not already exist.
-     */
-
     if(!panel.id){
 
         panel.id =
@@ -420,9 +419,13 @@ function initializeTab(
     }
 
 
-    /*
-     * Connect tab and panel.
-     */
+    if(!tab.id){
+
+        tab.id =
+            `tab-${crypto.randomUUID()}`;
+
+    }
+
 
     tab.setAttribute(
         "aria-controls",
@@ -444,67 +447,9 @@ function initializeTab(
 
     panel.setAttribute(
         "aria-labelledby",
-        tab.id ||
-        ""
+        tab.id
     );
 
-
-    /*
-     * Generate tab ID when necessary.
-     */
-
-    if(!tab.id){
-
-        tab.id =
-            `tab-${crypto.randomUUID()}`;
-
-        panel.setAttribute(
-            "aria-labelledby",
-            tab.id
-        );
-
-    }
-
-
-    /*
-     * Initial state.
-     */
-
-    tab.classList.remove(
-        "is-active"
-    );
-
-
-    tab.setAttribute(
-        "aria-selected",
-        "false"
-    );
-
-
-    tab.setAttribute(
-        "tabindex",
-        "-1"
-    );
-
-
-    panel.classList.remove(
-        "is-active"
-    );
-
-
-    panel.hidden =
-        true;
-
-
-    panel.setAttribute(
-        "aria-hidden",
-        "true"
-    );
-
-
-    /*
-     * Events.
-     */
 
     tab.addEventListener(
         "click",
@@ -521,7 +466,7 @@ function initializeTab(
 
 
 /* ==========================================
-   INITIALIZE TAB SYSTEM
+   INITIALIZE SYSTEM
 ========================================== */
 
 function initializeTabSystem(
@@ -550,10 +495,6 @@ function initializeTabSystem(
     }
 
 
-    /*
-     * Locate the tab list.
-     */
-
     const tabList =
         tabSystem.querySelector(
             TAB_SELECTORS.tabList
@@ -570,50 +511,34 @@ function initializeTabSystem(
     }
 
 
-    /*
-     * Initialize each tab.
-     */
-
     tabs.forEach(
-        (
-            tab,
-            index
-        ) => {
+        (tab) => {
 
             initializeTab(
                 tabSystem,
-                tab,
-                index
+                tab
             );
 
         }
     );
 
 
-    /*
-     * Determine initial active tab.
-     */
-
     let initialIndex =
         tabs.findIndex(
-            (tab) => {
-
-                return (
-                    tab.classList.contains(
-                        "is-active"
-                    ) ||
-                    tab.getAttribute(
-                        "aria-selected"
-                    ) === "true"
-                );
-
-            }
+            (tab) =>
+                tab.classList.contains(
+                    "is-active"
+                ) ||
+                tab.getAttribute(
+                    "aria-selected"
+                ) === "true"
         );
 
 
     if(initialIndex < 0){
 
-        initialIndex = 0;
+        initialIndex =
+            0;
 
     }
 
@@ -629,42 +554,26 @@ function initializeTabSystem(
 
     activateTab(
         tabSystem,
-        tabs[initialIndex],
-        false
+        tabs[initialIndex]
     );
 
 }
 
 
 /* ==========================================
-   INITIALIZE ALL TAB SYSTEMS
+   INITIALIZE ALL
 ========================================== */
 
 export function initTabs(){
 
-    const tabSystems =
+    const systems =
         document.querySelectorAll(
             TAB_SELECTORS.tabs
         );
 
 
-    if(!tabSystems.length){
-
-        return;
-
-    }
-
-
-    tabSystems.forEach(
-        (
-            tabSystem
-        ) => {
-
-            initializeTabSystem(
-                tabSystem
-            );
-
-        }
+    systems.forEach(
+        initializeTabSystem
     );
 
 }

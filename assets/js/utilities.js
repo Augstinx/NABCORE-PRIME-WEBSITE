@@ -9,17 +9,14 @@
    DOM SELECTOR
 ========================================== */
 
-/**
- * Select a single DOM element.
- *
- * @param {string} selector
- * @param {Element|Document} context
- * @returns {Element|null}
- */
+export function $(
+    selector,
+    context = document
+){
 
-export function $(selector, context = document){
-
-    return context.querySelector(selector);
+    return context.querySelector(
+        selector
+    );
 
 }
 
@@ -28,17 +25,14 @@ export function $(selector, context = document){
    DOM SELECTOR ALL
 ========================================== */
 
-/**
- * Select multiple DOM elements.
- *
- * @param {string} selector
- * @param {Element|Document} context
- * @returns {NodeList}
- */
+export function $$(
+    selector,
+    context = document
+){
 
-export function $$(selector, context = document){
-
-    return context.querySelectorAll(selector);
+    return context.querySelectorAll(
+        selector
+    );
 
 }
 
@@ -47,14 +41,9 @@ export function $$(selector, context = document){
    ELEMENT CHECK
 ========================================== */
 
-/**
- * Check whether a value is a DOM element.
- *
- * @param {*} element
- * @returns {boolean}
- */
-
-export function isElement(element){
+export function isElement(
+    element
+){
 
     return element instanceof Element;
 
@@ -64,12 +53,6 @@ export function isElement(element){
 /* ==========================================
    REDUCED MOTION
 ========================================== */
-
-/**
- * Check whether the user prefers reduced motion.
- *
- * @returns {boolean}
- */
 
 export function prefersReducedMotion(){
 
@@ -84,25 +67,26 @@ export function prefersReducedMotion(){
    VIEWPORT CHECK
 ========================================== */
 
-/**
- * Check whether an element is currently
- * inside the viewport.
- *
- * @param {Element} element
- * @returns {boolean}
- */
+export function isInViewport(
+    element
+){
 
-export function isInViewport(element){
+    if(
+        !isElement(element)
+    ){
 
-    if(!isElement(element)){
         return false;
+
     }
+
 
     const rect =
         element.getBoundingClientRect();
 
+
     return (
-        rect.top < window.innerHeight &&
+        rect.top <
+        window.innerHeight &&
         rect.bottom > 0
     );
 
@@ -113,28 +97,32 @@ export function isInViewport(element){
    DEBOUNCE
 ========================================== */
 
-/**
- * Delay function execution until the
- * event has stopped firing.
- *
- * @param {Function} callback
- * @param {number} delay
- * @returns {Function}
- */
-
-export function debounce(callback, delay = 200){
+export function debounce(
+    callback,
+    delay = 200
+){
 
     let timeoutId;
 
+
     return (...args) => {
 
-        clearTimeout(timeoutId);
+        clearTimeout(
+            timeoutId
+        );
 
-        timeoutId = setTimeout(() => {
 
-            callback(...args);
+        timeoutId =
+            setTimeout(
+                () => {
 
-        }, delay);
+                    callback(
+                        ...args
+                    );
+
+                },
+                delay
+            );
 
     };
 
@@ -145,17 +133,13 @@ export function debounce(callback, delay = 200){
    THROTTLE
 ========================================== */
 
-/**
- * Limit how frequently a function executes.
- *
- * @param {Function} callback
- * @param {number} limit
- * @returns {Function}
- */
-
-export function throttle(callback, limit = 200){
+export function throttle(
+    callback,
+    limit = 200
+){
 
     let waiting = false;
+
 
     return (...args) => {
 
@@ -163,15 +147,23 @@ export function throttle(callback, limit = 200){
             return;
         }
 
-        callback(...args);
+
+        callback(
+            ...args
+        );
+
 
         waiting = true;
 
-        setTimeout(() => {
 
-            waiting = false;
+        setTimeout(
+            () => {
 
-        }, limit);
+                waiting = false;
+
+            },
+            limit
+        );
 
     };
 
@@ -182,15 +174,34 @@ export function throttle(callback, limit = 200){
    CURRENT YEAR
 ========================================== */
 
-/**
- * Return the current calendar year.
- *
- * @returns {number}
- */
-
 export function getCurrentYear(){
 
-    return new Date().getFullYear();
+    return new Date()
+        .getFullYear();
+
+}
+
+
+/* ==========================================
+   UPDATE CURRENT YEAR
+========================================== */
+
+export function updateCurrentYear(){
+
+    const elements =
+        document.querySelectorAll(
+            "[data-current-year]"
+        );
+
+
+    elements.forEach(
+        (element) => {
+
+            element.textContent =
+                getCurrentYear();
+
+        }
+    );
 
 }
 
@@ -199,22 +210,26 @@ export function getCurrentYear(){
    STRING NORMALIZATION
 ========================================== */
 
-/**
- * Trim and normalize user-facing text.
- *
- * @param {string} value
- * @returns {string}
- */
+export function normalizeText(
+    value
+){
 
-export function normalizeText(value){
+    if(
+        typeof value !==
+        "string"
+    ){
 
-    if(typeof value !== "string"){
         return "";
+
     }
+
 
     return value
         .trim()
-        .replace(/\s+/g, " ");
+        .replace(
+            /\s+/g,
+            " "
+        );
 
 }
 
@@ -223,14 +238,6 @@ export function normalizeText(value){
    SAFE JSON PARSING
 ========================================== */
 
-/**
- * Safely parse JSON without throwing.
- *
- * @param {string} value
- * @param {*} fallback
- * @returns {*}
- */
-
 export function safeJsonParse(
     value,
     fallback = null
@@ -238,12 +245,25 @@ export function safeJsonParse(
 
     try{
 
-        return JSON.parse(value);
+        return JSON.parse(
+            value
+        );
 
-    }catch(error){
+    }catch{
 
         return fallback;
 
     }
+
+}
+
+
+/* ==========================================
+   INITIALIZE UTILITIES
+========================================== */
+
+export function initUtilities(){
+
+    updateCurrentYear();
 
 }

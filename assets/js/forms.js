@@ -4,6 +4,11 @@
    forms.js
 ========================================== */
 
+import {
+    validateForm,
+    clearFormValidation
+} from "./validation.js";
+
 
 /* ==========================================
    FORM CONFIGURATION
@@ -56,7 +61,7 @@ const submittingForms =
 
 
 /* ==========================================
-   GET FORM STATUS ELEMENT
+   GET FORM STATUS
 ========================================== */
 
 function getStatusElement(form){
@@ -67,15 +72,12 @@ function getStatusElement(form){
         );
 
 
-    /*
-     * Create a status element automatically
-     * if the HTML does not already contain one.
-     */
-
     if(!status){
 
         status =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
 
         status.className =
@@ -123,7 +125,9 @@ function setFormStatus(
 ){
 
     const status =
-        getStatusElement(form);
+        getStatusElement(
+            form
+        );
 
 
     status.textContent =
@@ -146,7 +150,7 @@ function setFormStatus(
 
 
 /* ==========================================
-   SET SUBMIT BUTTON STATE
+   SET SUBMIT STATE
 ========================================== */
 
 function setSubmitState(
@@ -166,11 +170,6 @@ function setSubmitState(
 
 
     if(isSubmitting){
-
-        /*
-         * Preserve the original button
-         * text so it can be restored later.
-         */
 
         if(
             !button.dataset.originalText
@@ -223,7 +222,9 @@ function setSubmitState(
 function serializeForm(form){
 
     const formData =
-        new FormData(form);
+        new FormData(
+            form
+        );
 
 
     const data = {};
@@ -232,15 +233,9 @@ function serializeForm(form){
     formData.forEach(
         (value, key) => {
 
-            /*
-             * File inputs are not currently
-             * part of the contact system.
-             *
-             * Keep text values only.
-             */
-
             if(
-                typeof value === "string"
+                typeof value ===
+                "string"
             ){
 
                 data[key] =
@@ -267,9 +262,10 @@ async function submitForm(form){
         await fetch(
             FORM_CONFIG.endpoint,
             {
-                method:"POST",
+                method:
+                    "POST",
 
-                headers:{
+                headers: {
                     "Content-Type":
                         "application/json",
 
@@ -277,19 +273,18 @@ async function submitForm(form){
                         "application/json"
                 },
 
-                body:JSON.stringify(
-                    serializeForm(form)
-                )
+                body:
+                    JSON.stringify(
+                        serializeForm(
+                            form
+                        )
+                    )
             }
         );
 
 
     let result = null;
 
-
-    /*
-     * Attempt to read the backend response.
-     */
 
     try{
 
@@ -298,7 +293,8 @@ async function submitForm(form){
 
     }catch{
 
-        result = null;
+        result =
+            null;
 
     }
 
@@ -335,12 +331,10 @@ async function handleSubmit(event){
         event.currentTarget;
 
 
-    /*
-     * Prevent duplicate submissions.
-     */
-
     if(
-        submittingForms.has(form)
+        submittingForms.has(
+            form
+        )
     ){
 
         return;
@@ -348,7 +342,32 @@ async function handleSubmit(event){
     }
 
 
-    submittingForms.add(form);
+    /*
+     * Validate before sending.
+     */
+
+    const valid =
+        validateForm(
+            form
+        );
+
+
+    if(!valid){
+
+        setFormStatus(
+            form,
+            "Please correct the highlighted fields.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    submittingForms.add(
+        form
+    );
 
 
     setSubmitState(
@@ -366,12 +385,10 @@ async function handleSubmit(event){
 
     try{
 
-        await submitForm(form);
+        await submitForm(
+            form
+        );
 
-
-        /*
-         * Successful submission.
-         */
 
         setFormStatus(
             form,
@@ -380,12 +397,12 @@ async function handleSubmit(event){
         );
 
 
-        /*
-         * Reset fields after successful
-         * submission.
-         */
-
         form.reset();
+
+
+        clearFormValidation(
+            form
+        );
 
 
     }catch(error){
@@ -434,20 +451,34 @@ export function initForms(){
 
 
     if(!forms.length){
-
         return;
-
     }
 
 
-    forms.forEach((form) => {
+    forms.forEach(
+        (form) => {
 
-        form.addEventListener(
-            "submit",
-            handleSubmit
-        );
+            if(
+                form.dataset.formInitialized ===
+                "true"
+            ){
 
-    });
+                return;
+
+            }
+
+
+            form.addEventListener(
+                "submit",
+                handleSubmit
+            );
+
+
+            form.dataset.formInitialized =
+                "true";
+
+        }
+    );
 
 }
 
@@ -473,7 +504,7 @@ export function resetFormStatus(form){
 
 
 /* ==========================================
-   PUBLIC FORM VALIDATION CHECK
+   PUBLIC FORM STATE
 ========================================== */
 
 export function isFormSubmitting(form){

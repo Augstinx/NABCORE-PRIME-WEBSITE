@@ -6,7 +6,7 @@
 
 
 /* ==========================================
-   COUNTER SELECTORS
+   COUNTER SELECTOR
 ========================================== */
 
 const COUNTER_SELECTOR =
@@ -19,15 +19,17 @@ const COUNTER_SELECTOR =
 
 const COUNTER_CONFIG = {
 
-    duration:1200,
+    duration:
+        1200,
 
-    threshold:0.5
+    threshold:
+        0.5
 
 };
 
 
 /* ==========================================
-   FORMAT COUNTER VALUE
+   FORMAT VALUE
 ========================================== */
 
 function formatCounterValue(
@@ -35,11 +37,7 @@ function formatCounterValue(
     suffix
 ){
 
-    const roundedValue =
-        Math.floor(value);
-
-
-    return `${roundedValue}${suffix}`;
+    return `${Math.floor(value)}${suffix}`;
 
 }
 
@@ -48,20 +46,18 @@ function formatCounterValue(
    ANIMATE COUNTER
 ========================================== */
 
-function animateCounter(element){
+function animateCounter(
+    element
+){
 
     if(!element){
         return;
     }
 
 
-    /*
-     * Prevent the same counter from
-     * being animated more than once.
-     */
-
     if(
-        element.dataset.counterAnimated === "true"
+        element.dataset.counterAnimated ===
+        "true"
     ){
 
         return;
@@ -86,7 +82,8 @@ function animateCounter(element){
 
 
     const suffix =
-        element.dataset.suffix || "";
+        element.dataset.suffix ||
+        "";
 
 
     const duration =
@@ -109,7 +106,8 @@ function animateCounter(element){
     ){
 
         const elapsed =
-            currentTime - startTime;
+            currentTime -
+            startTime;
 
 
         const progress =
@@ -118,13 +116,6 @@ function animateCounter(element){
                 1
             );
 
-
-        /*
-         * Ease-out function.
-         *
-         * Starts quickly and slows smoothly
-         * near the target value.
-         */
 
         const easedProgress =
             1 -
@@ -146,9 +137,11 @@ function animateCounter(element){
             );
 
 
-        if(progress < 1){
+        if(
+            progress < 1
+        ){
 
-            window.requestAnimationFrame(
+            requestAnimationFrame(
                 updateCounter
             );
 
@@ -165,49 +158,8 @@ function animateCounter(element){
     }
 
 
-    window.requestAnimationFrame(
+    requestAnimationFrame(
         updateCounter
-    );
-
-}
-
-
-/* ==========================================
-   CREATE COUNTER OBSERVER
-========================================== */
-
-function createCounterObserver(){
-
-    return new IntersectionObserver(
-        (entries, observer) => {
-
-            entries.forEach((entry) => {
-
-                if(
-                    !entry.isIntersecting
-                ){
-
-                    return;
-
-                }
-
-
-                animateCounter(
-                    entry.target
-                );
-
-
-                observer.unobserve(
-                    entry.target
-                );
-
-            });
-
-        },
-        {
-            threshold:
-                COUNTER_CONFIG.threshold
-        }
     );
 
 }
@@ -226,18 +178,9 @@ export function initCounters(){
 
 
     if(!counters.length){
-
         return;
-
     }
 
-
-    /*
-     * Respect reduced-motion preferences.
-     *
-     * Users who prefer reduced motion
-     * receive the final values immediately.
-     */
 
     const reducedMotion =
         window.matchMedia(
@@ -247,31 +190,47 @@ export function initCounters(){
 
     if(reducedMotion){
 
-        counters.forEach((counter) => {
+        counters.forEach(
+            (counter) => {
 
-            const target =
-                Number(
-                    counter.dataset.counter
-                );
-
-
-            const suffix =
-                counter.dataset.suffix || "";
-
-
-            if(
-                Number.isFinite(target)
-            ){
-
-                counter.textContent =
-                    formatCounterValue(
-                        target,
-                        suffix
+                const target =
+                    Number(
+                        counter.dataset.counter
                     );
 
-            }
 
-        });
+                const suffix =
+                    counter.dataset.suffix ||
+                    "";
+
+
+                if(
+                    Number.isFinite(target)
+                ){
+
+                    counter.textContent =
+                        formatCounterValue(
+                            target,
+                            suffix
+                        );
+
+                }
+
+            }
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !("IntersectionObserver" in window)
+    ){
+
+        counters.forEach(
+            animateCounter
+        );
 
         return;
 
@@ -279,16 +238,53 @@ export function initCounters(){
 
 
     const observer =
-        createCounterObserver();
+        new IntersectionObserver(
+            (
+                entries,
+                observer
+            ) => {
+
+                entries.forEach(
+                    (entry) => {
+
+                        if(
+                            !entry.isIntersecting
+                        ){
+
+                            return;
+
+                        }
 
 
-    counters.forEach((counter) => {
+                        animateCounter(
+                            entry.target
+                        );
 
-        observer.observe(
-            counter
+
+                        observer.unobserve(
+                            entry.target
+                        );
+
+                    }
+                );
+
+            },
+            {
+                threshold:
+                    COUNTER_CONFIG.threshold
+            }
         );
 
-    });
+
+    counters.forEach(
+        (counter) => {
+
+            observer.observe(
+                counter
+            );
+
+        }
+    );
 
 }
 
@@ -305,19 +301,22 @@ export function resetCounters(){
         );
 
 
-    counters.forEach((counter) => {
+    counters.forEach(
+        (counter) => {
 
-        counter.dataset.counterAnimated =
-            "false";
-
-
-        const suffix =
-            counter.dataset.suffix || "";
+            counter.dataset.counterAnimated =
+                "false";
 
 
-        counter.textContent =
-            `0${suffix}`;
+            const suffix =
+                counter.dataset.suffix ||
+                "";
 
-    });
+
+            counter.textContent =
+                `0${suffix}`;
+
+        }
+    );
 
 }

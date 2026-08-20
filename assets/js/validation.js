@@ -12,8 +12,11 @@
 const validationRules = {
 
     required: {
-        validate: (value) => value.trim().length > 0,
-        message: "This field is required."
+        validate: (value) =>
+            value.trim().length > 0,
+
+        message:
+            "This field is required."
     },
 
 
@@ -23,11 +26,14 @@ const validationRules = {
             const emailPattern =
                 /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            return emailPattern.test(value.trim());
+            return emailPattern.test(
+                value.trim()
+            );
 
         },
 
-        message: "Please enter a valid email address."
+        message:
+            "Please enter a valid email address."
     },
 
 
@@ -37,11 +43,14 @@ const validationRules = {
             const phonePattern =
                 /^[+]?[0-9\s().-]{7,20}$/;
 
-            return phonePattern.test(value.trim());
+            return phonePattern.test(
+                value.trim()
+            );
 
         },
 
-        message: "Please enter a valid phone number."
+        message:
+            "Please enter a valid phone number."
     },
 
 
@@ -69,23 +78,20 @@ const validationRules = {
    FIELD HELPERS
 ========================================== */
 
-/**
- * Get the error element associated with a field.
- *
- * @param {HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement} field
- * @returns {Element|null}
- */
-
 function getErrorElement(field){
 
     const errorId =
-        field.getAttribute("aria-describedby");
+        field.getAttribute(
+            "aria-describedby"
+        );
 
     if(!errorId){
         return null;
     }
 
-    return document.getElementById(errorId);
+    return document.getElementById(
+        errorId
+    );
 
 }
 
@@ -94,22 +100,22 @@ function getErrorElement(field){
    SHOW FIELD ERROR
 ========================================== */
 
-/**
- * Display a validation error.
- *
- * @param {HTMLElement} field
- * @param {string} message
- */
-
-export function showFieldError(field, message){
+export function showFieldError(
+    field,
+    message
+){
 
     if(!field){
         return;
     }
 
-    field.classList.remove("is-valid");
+    field.classList.remove(
+        "is-valid"
+    );
 
-    field.classList.add("is-invalid");
+    field.classList.add(
+        "is-invalid"
+    );
 
     field.setAttribute(
         "aria-invalid",
@@ -120,9 +126,11 @@ export function showFieldError(field, message){
     const errorElement =
         getErrorElement(field);
 
+
     if(errorElement){
 
-        errorElement.textContent = message;
+        errorElement.textContent =
+            message;
 
         errorElement.classList.add(
             "is-visible"
@@ -136,12 +144,6 @@ export function showFieldError(field, message){
 /* ==========================================
    CLEAR FIELD ERROR
 ========================================== */
-
-/**
- * Remove a validation error.
- *
- * @param {HTMLElement} field
- */
 
 export function clearFieldError(field){
 
@@ -161,9 +163,11 @@ export function clearFieldError(field){
     const errorElement =
         getErrorElement(field);
 
+
     if(errorElement){
 
-        errorElement.textContent = "";
+        errorElement.textContent =
+            "";
 
         errorElement.classList.remove(
             "is-visible"
@@ -177,12 +181,6 @@ export function clearFieldError(field){
 /* ==========================================
    SHOW FIELD VALID
 ========================================== */
-
-/**
- * Mark a field as valid.
- *
- * @param {HTMLElement} field
- */
 
 export function showFieldValid(field){
 
@@ -207,9 +205,11 @@ export function showFieldValid(field){
     const errorElement =
         getErrorElement(field);
 
+
     if(errorElement){
 
-        errorElement.textContent = "";
+        errorElement.textContent =
+            "";
 
         errorElement.classList.remove(
             "is-visible"
@@ -224,13 +224,6 @@ export function showFieldValid(field){
    VALIDATE REQUIRED FIELD
 ========================================== */
 
-/**
- * Validate a required field.
- *
- * @param {HTMLElement} field
- * @returns {boolean}
- */
-
 export function validateRequired(field){
 
     if(!field){
@@ -239,6 +232,7 @@ export function validateRequired(field){
 
     const value =
         field.value.trim();
+
 
     if(
         !validationRules.required.validate(
@@ -252,9 +246,13 @@ export function validateRequired(field){
         );
 
         return false;
+
     }
 
-    showFieldValid(field);
+
+    showFieldValid(
+        field
+    );
 
     return true;
 
@@ -265,13 +263,6 @@ export function validateRequired(field){
    VALIDATE EMAIL
 ========================================== */
 
-/**
- * Validate an email field.
- *
- * @param {HTMLElement} field
- * @returns {boolean}
- */
-
 export function validateEmail(field){
 
     if(!field){
@@ -280,6 +271,7 @@ export function validateEmail(field){
 
     const value =
         field.value.trim();
+
 
     if(
         !validationRules.email.validate(
@@ -293,9 +285,13 @@ export function validateEmail(field){
         );
 
         return false;
+
     }
 
-    showFieldValid(field);
+
+    showFieldValid(
+        field
+    );
 
     return true;
 
@@ -306,13 +302,6 @@ export function validateEmail(field){
    VALIDATE PHONE
 ========================================== */
 
-/**
- * Validate a phone field.
- *
- * @param {HTMLElement} field
- * @returns {boolean}
- */
-
 export function validatePhone(field){
 
     if(!field){
@@ -321,6 +310,7 @@ export function validatePhone(field){
 
     const value =
         field.value.trim();
+
 
     if(
         !validationRules.phone.validate(
@@ -334,9 +324,13 @@ export function validatePhone(field){
         );
 
         return false;
+
     }
 
-    showFieldValid(field);
+
+    showFieldValid(
+        field
+    );
 
     return true;
 
@@ -346,15 +340,6 @@ export function validatePhone(field){
 /* ==========================================
    VALIDATE LENGTH
 ========================================== */
-
-/**
- * Validate minimum and maximum field length.
- *
- * @param {HTMLElement} field
- * @param {number} minimum
- * @param {number|null} maximum
- * @returns {boolean}
- */
 
 export function validateLength(
     field,
@@ -386,6 +371,7 @@ export function validateLength(
         );
 
         return false;
+
     }
 
 
@@ -405,10 +391,13 @@ export function validateLength(
         );
 
         return false;
+
     }
 
 
-    showFieldValid(field);
+    showFieldValid(
+        field
+    );
 
     return true;
 
@@ -418,22 +407,6 @@ export function validateLength(
 /* ==========================================
    VALIDATE FIELD
 ========================================== */
-
-/**
- * Validate a field based on its
- * data-validation attributes.
- *
- * Supported attributes:
- *
- * data-required
- * data-validation="email"
- * data-validation="phone"
- * data-min-length="10"
- * data-max-length="500"
- *
- * @param {HTMLElement} field
- * @returns {boolean}
- */
 
 export function validateField(field){
 
@@ -456,8 +429,12 @@ export function validateField(field){
         )
     ){
 
-        if(!validateRequired(field)){
+        if(
+            !validateRequired(field)
+        ){
+
             return false;
+
         }
 
     }
@@ -468,15 +445,23 @@ export function validateField(field){
     ------------------------------------------ */
 
     if(
-        field.dataset.validation === "email"
+        field.dataset.validation ===
+        "email"
     ){
 
         if(value.length === 0){
+
             return true;
+
         }
 
-        if(!validateEmail(field)){
+
+        if(
+            !validateEmail(field)
+        ){
+
             return false;
+
         }
 
     }
@@ -487,15 +472,23 @@ export function validateField(field){
     ------------------------------------------ */
 
     if(
-        field.dataset.validation === "phone"
+        field.dataset.validation ===
+        "phone"
     ){
 
         if(value.length === 0){
+
             return true;
+
         }
 
-        if(!validatePhone(field)){
+
+        if(
+            !validatePhone(field)
+        ){
+
             return false;
+
         }
 
     }
@@ -517,7 +510,9 @@ export function validateField(field){
 
     const maximum =
         field.dataset.maxLength
-            ? Number(field.dataset.maxLength)
+            ? Number(
+                field.dataset.maxLength
+            )
             : null;
 
 
@@ -526,11 +521,13 @@ export function validateField(field){
         maximum !== null
     ){
 
-        if(!validateLength(
-            field,
-            minimum,
-            maximum
-        )){
+        if(
+            !validateLength(
+                field,
+                minimum,
+                maximum
+            )
+        ){
 
             return false;
 
@@ -538,6 +535,11 @@ export function validateField(field){
 
     }
 
+
+    /*
+     * Fields without a validation rule
+     * do not require validation.
+     */
 
     return true;
 
@@ -547,14 +549,6 @@ export function validateField(field){
 /* ==========================================
    VALIDATE FORM
 ========================================== */
-
-/**
- * Validate all supported fields
- * inside a form.
- *
- * @param {HTMLFormElement} form
- * @returns {boolean}
- */
 
 export function validateForm(form){
 
@@ -572,46 +566,61 @@ export function validateForm(form){
     let isValid = true;
 
 
-    fields.forEach((field) => {
+    fields.forEach(
+        (field) => {
 
-        /*
-         * Skip disabled fields.
-         */
+            /* Skip disabled fields. */
 
-        if(field.disabled){
-            return;
+            if(field.disabled){
+                return;
+            }
+
+
+            /* Skip button controls. */
+
+            if(
+                field.type === "submit" ||
+                field.type === "reset" ||
+                field.type === "button"
+            ){
+
+                return;
+
+            }
+
+
+            /*
+             * Validate only fields that
+             * actually have validation rules.
+             */
+
+            const hasValidation =
+                field.hasAttribute(
+                    "data-required"
+                ) ||
+                field.dataset.validation ||
+                field.dataset.minLength ||
+                field.dataset.maxLength;
+
+
+            if(!hasValidation){
+                return;
+            }
+
+
+            if(
+                !validateField(field)
+            ){
+
+                isValid = false;
+
+            }
+
         }
+    );
 
 
-        /*
-         * Skip submit/reset/button fields.
-         */
-
-        if(
-            field.type === "submit" ||
-            field.type === "reset" ||
-            field.type === "button"
-        ){
-            return;
-        }
-
-
-        /*
-         * Validate field.
-         */
-
-        if(!validateField(field)){
-
-            isValid = false;
-
-        }
-
-    });
-
-
-    /*
-     * Focus the first invalid field.
-     */
+    /* Focus first invalid field. */
 
     if(!isValid){
 
@@ -619,6 +628,7 @@ export function validateForm(form){
             form.querySelector(
                 ".is-invalid"
             );
+
 
         if(firstInvalid){
 
@@ -638,13 +648,6 @@ export function validateForm(form){
    CLEAR FORM VALIDATION
 ========================================== */
 
-/**
- * Clear all validation states
- * from a form.
- *
- * @param {HTMLFormElement} form
- */
-
 export function clearFormValidation(form){
 
     if(!form){
@@ -658,32 +661,37 @@ export function clearFormValidation(form){
         );
 
 
-    fields.forEach((field) => {
+    fields.forEach(
+        (field) => {
 
-        field.classList.remove(
-            "is-valid",
-            "is-invalid"
-        );
-
-        field.removeAttribute(
-            "aria-invalid"
-        );
-
-
-        const errorElement =
-            getErrorElement(field);
-
-        if(errorElement){
-
-            errorElement.textContent = "";
-
-            errorElement.classList.remove(
-                "is-visible"
+            field.classList.remove(
+                "is-valid",
+                "is-invalid"
             );
 
-        }
 
-    });
+            field.removeAttribute(
+                "aria-invalid"
+            );
+
+
+            const errorElement =
+                getErrorElement(field);
+
+
+            if(errorElement){
+
+                errorElement.textContent =
+                    "";
+
+                errorElement.classList.remove(
+                    "is-visible"
+                );
+
+            }
+
+        }
+    );
 
 }
 
@@ -691,12 +699,6 @@ export function clearFormValidation(form){
 /* ==========================================
    LIVE FIELD VALIDATION
 ========================================== */
-
-/**
- * Attach live validation to form fields.
- *
- * @param {HTMLFormElement} form
- */
 
 export function enableLiveValidation(form){
 
@@ -711,35 +713,96 @@ export function enableLiveValidation(form){
         );
 
 
-    fields.forEach((field) => {
+    fields.forEach(
+        (field) => {
 
-        field.addEventListener(
-            "blur",
-            () => {
+            field.addEventListener(
+                "blur",
+                () => {
 
-                validateField(field);
+                    if(
+                        field.hasAttribute(
+                            "data-required"
+                        ) ||
+                        field.dataset.validation ||
+                        field.dataset.minLength ||
+                        field.dataset.maxLength
+                    ){
 
-            }
-        );
+                        validateField(
+                            field
+                        );
 
-
-        field.addEventListener(
-            "input",
-            () => {
-
-                if(
-                    field.classList.contains(
-                        "is-invalid"
-                    )
-                ){
-
-                    validateField(field);
+                    }
 
                 }
+            );
 
-            }
+
+            field.addEventListener(
+                "input",
+                () => {
+
+                    if(
+                        field.classList.contains(
+                            "is-invalid"
+                        )
+                    ){
+
+                        validateField(
+                            field
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   INITIALIZE VALIDATION
+========================================== */
+
+export function initValidation(){
+
+    const forms =
+        document.querySelectorAll(
+            "form"
         );
 
-    });
+
+    if(!forms.length){
+        return;
+    }
+
+
+    forms.forEach(
+        (form) => {
+
+            if(
+                form.dataset.validationInitialized ===
+                "true"
+            ){
+
+                return;
+
+            }
+
+
+            enableLiveValidation(
+                form
+            );
+
+
+            form.dataset.validationInitialized =
+                "true";
+
+        }
+    );
 
 }

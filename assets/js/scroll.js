@@ -29,9 +29,11 @@ const SCROLL_SELECTORS = {
 
 const SCROLL_CONFIG = {
 
-    headerThreshold:20,
+    headerThreshold:
+        20,
 
-    scrollTopThreshold:400
+    scrollTopThreshold:
+        400
 
 };
 
@@ -57,7 +59,7 @@ function prefersReducedMotion(){
 
 
 /* ==========================================
-   UPDATE HEADER SCROLL STATE
+   UPDATE HEADER STATE
 ========================================== */
 
 function updateHeaderState(){
@@ -73,130 +75,20 @@ function updateHeaderState(){
     }
 
 
-    if(
+    header.classList.toggle(
+        "scrolled",
         window.scrollY >
         SCROLL_CONFIG.headerThreshold
-    ){
-
-        header.classList.add(
-            "scrolled"
-        );
-
-    }else{
-
-        header.classList.remove(
-            "scrolled"
-        );
-
-    }
+    );
 
 }
 
 
 /* ==========================================
-   UPDATE SCROLL-TO-TOP CONTROL
+   UPDATE SCROLL TOP
 ========================================== */
 
 function updateScrollTopState(){
-
-    const scrollTopButton =
-        document.querySelector(
-            SCROLL_SELECTORS.scrollTop
-        );
-
-
-    if(!scrollTopButton){
-        return;
-    }
-
-
-    if(
-        window.scrollY >
-        SCROLL_CONFIG.scrollTopThreshold
-    ){
-
-        scrollTopButton.classList.add(
-            "is-visible"
-        );
-
-        scrollTopButton.removeAttribute(
-            "aria-hidden"
-        );
-
-    }else{
-
-        scrollTopButton.classList.remove(
-            "is-visible"
-        );
-
-        scrollTopButton.setAttribute(
-            "aria-hidden",
-            "true"
-        );
-
-    }
-
-}
-
-
-/* ==========================================
-   HANDLE SCROLL
-========================================== */
-
-function handleScroll(){
-
-    /*
-     * Prevent multiple layout calculations
-     * during the same animation frame.
-     */
-
-    if(isTicking){
-        return;
-    }
-
-
-    isTicking = true;
-
-
-    window.requestAnimationFrame(() => {
-
-        updateHeaderState();
-
-        updateScrollTopState();
-
-
-        isTicking = false;
-
-    });
-
-}
-
-
-/* ==========================================
-   SCROLL TO TOP
-========================================== */
-
-function scrollToTop(){
-
-    const behavior =
-        prefersReducedMotion()
-            ? "auto"
-            : "smooth";
-
-
-    window.scrollTo({
-        top:0,
-        behavior
-    });
-
-}
-
-
-/* ==========================================
-   INITIALIZE SCROLL-TO-TOP
-========================================== */
-
-function initializeScrollTop(){
 
     const buttons =
         document.querySelectorAll(
@@ -209,12 +101,76 @@ function initializeScrollTop(){
     }
 
 
-    buttons.forEach((button) => {
+    const visible =
+        window.scrollY >
+        SCROLL_CONFIG.scrollTopThreshold;
 
-        button.addEventListener(
-            "click",
-            scrollToTop
-        );
+
+    buttons.forEach(
+        (button) => {
+
+            button.classList.toggle(
+                "is-visible",
+                visible
+            );
+
+
+            button.setAttribute(
+                "aria-hidden",
+                visible
+                    ? "false"
+                    : "true"
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   HANDLE SCROLL
+========================================== */
+
+function handleScroll(){
+
+    if(isTicking){
+        return;
+    }
+
+
+    isTicking = true;
+
+
+    window.requestAnimationFrame(
+        () => {
+
+            updateHeaderState();
+
+            updateScrollTopState();
+
+            isTicking = false;
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   SCROLL TO TOP
+========================================== */
+
+function scrollToTop(){
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior:
+            prefersReducedMotion()
+                ? "auto"
+                : "smooth"
 
     });
 
@@ -222,22 +178,47 @@ function initializeScrollTop(){
 
 
 /* ==========================================
-   HANDLE HASH ANCHORS
+   INITIALIZE SCROLL TOP
 ========================================== */
 
-function handleAnchorClick(event){
+function initializeScrollTop(){
+
+    const buttons =
+        document.querySelectorAll(
+            SCROLL_SELECTORS.scrollTop
+        );
+
+
+    buttons.forEach(
+        (button) => {
+
+            button.addEventListener(
+                "click",
+                scrollToTop
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   HANDLE HASH ANCHOR
+========================================== */
+
+function handleAnchorClick(
+    event
+){
 
     const link =
         event.currentTarget;
 
 
-    if(!link){
-        return;
-    }
-
-
     const href =
-        link.getAttribute("href");
+        link.getAttribute(
+            "href"
+        );
 
 
     if(
@@ -251,8 +232,27 @@ function handleAnchorClick(event){
     }
 
 
+    const linkUrl =
+        new URL(
+            link.href,
+            window.location.href
+        );
+
+
+    if(
+        linkUrl.pathname !==
+        window.location.pathname
+    ){
+
+        return;
+
+    }
+
+
     const targetId =
-        href.substring(1);
+        decodeURIComponent(
+            href.substring(1)
+        );
 
 
     const target =
@@ -263,31 +263,6 @@ function handleAnchorClick(event){
 
     if(!target){
         return;
-    }
-
-
-    /*
-     * Allow normal navigation when the
-     * target is not on the current page.
-     */
-
-    const currentPath =
-        window.location.pathname;
-
-
-    const linkUrl =
-        new URL(
-            link.href,
-            window.location.href
-        );
-
-
-    if(
-        linkUrl.pathname !== currentPath
-    ){
-
-        return;
-
     }
 
 
@@ -312,44 +287,33 @@ function handleAnchorClick(event){
         headerHeight;
 
 
-    const behavior =
-        prefersReducedMotion()
-            ? "auto"
-            : "smooth";
-
-
     window.scrollTo({
-        top:Math.max(
-            targetPosition,
-            0
-        ),
-        behavior
+
+        top:
+            Math.max(
+                targetPosition,
+                0
+            ),
+
+        behavior:
+            prefersReducedMotion()
+                ? "auto"
+                : "smooth"
+
     });
 
 
-    /*
-     * Update the URL without forcing
-     * another browser navigation.
-     */
-
-    if(
-        window.history &&
-        window.history.pushState
-    ){
-
-        window.history.pushState(
-            null,
-            "",
-            `#${targetId}`
-        );
-
-    }
+    history.pushState(
+        null,
+        "",
+        `#${targetId}`
+    );
 
 }
 
 
 /* ==========================================
-   INITIALIZE HASH ANCHORS
+   INITIALIZE ANCHORS
 ========================================== */
 
 function initializeAnchors(){
@@ -360,19 +324,16 @@ function initializeAnchors(){
         );
 
 
-    if(!anchors.length){
-        return;
-    }
+    anchors.forEach(
+        (anchor) => {
 
+            anchor.addEventListener(
+                "click",
+                handleAnchorClick
+            );
 
-    anchors.forEach((anchor) => {
-
-        anchor.addEventListener(
-            "click",
-            handleAnchorClick
-        );
-
-    });
+        }
+    );
 
 }
 
@@ -383,13 +344,19 @@ function initializeAnchors(){
 
 function handleInitialHash(){
 
-    if(!window.location.hash){
+    if(
+        !window.location.hash
+    ){
+
         return;
+
     }
 
 
     const targetId =
-        window.location.hash.substring(1);
+        decodeURIComponent(
+            window.location.hash.substring(1)
+        );
 
 
     const target =
@@ -403,40 +370,42 @@ function handleInitialHash(){
     }
 
 
-    /*
-     * Wait until the browser has completed
-     * initial layout before positioning.
-     */
+    window.requestAnimationFrame(
+        () => {
 
-    window.requestAnimationFrame(() => {
-
-        const header =
-            document.querySelector(
-                SCROLL_SELECTORS.header
-            );
+            const header =
+                document.querySelector(
+                    SCROLL_SELECTORS.header
+                );
 
 
-        const headerHeight =
-            header
-                ? header.offsetHeight
-                : 0;
+            const headerHeight =
+                header
+                    ? header.offsetHeight
+                    : 0;
 
 
-        const targetPosition =
-            target.getBoundingClientRect().top +
-            window.scrollY -
-            headerHeight;
+            const targetPosition =
+                target.getBoundingClientRect().top +
+                window.scrollY -
+                headerHeight;
 
 
-        window.scrollTo({
-            top:Math.max(
-                targetPosition,
-                0
-            ),
-            behavior:"auto"
-        });
+            window.scrollTo({
 
-    });
+                top:
+                    Math.max(
+                        targetPosition,
+                        0
+                    ),
+
+                behavior:
+                    "auto"
+
+            });
+
+        }
+    );
 
 }
 
@@ -447,46 +416,23 @@ function handleInitialHash(){
 
 export function initScroll(){
 
-    /*
-     * Initial state.
-     */
-
     updateHeaderState();
 
     updateScrollTopState();
 
 
-    /*
-     * Scroll listener.
-     */
-
     window.addEventListener(
         "scroll",
         handleScroll,
         {
-            passive:true
+            passive: true
         }
     );
 
 
-    /*
-     * Scroll-to-top controls.
-     */
-
     initializeScrollTop();
 
-
-    /*
-     * Internal page anchors.
-     */
-
     initializeAnchors();
-
-
-    /*
-     * Handle direct links containing
-     * a hash fragment.
-     */
 
     handleInitialHash();
 

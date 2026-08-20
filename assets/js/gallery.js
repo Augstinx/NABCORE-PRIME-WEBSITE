@@ -30,7 +30,7 @@ const GALLERY_SELECTORS = {
 
 
 /* ==========================================
-   GALLERY STATE
+   STATE
 ========================================== */
 
 const galleryStates =
@@ -38,10 +38,12 @@ const galleryStates =
 
 
 /* ==========================================
-   GET GALLERY ITEMS
+   GET ITEMS
 ========================================== */
 
-function getGalleryItems(gallery){
+function getGalleryItems(
+    gallery
+){
 
     return Array.from(
         gallery.querySelectorAll(
@@ -56,7 +58,9 @@ function getGalleryItems(gallery){
    GET MAIN IMAGE
 ========================================== */
 
-function getMainImage(gallery){
+function getMainImage(
+    gallery
+){
 
     return gallery.querySelector(
         GALLERY_SELECTORS.image
@@ -69,7 +73,9 @@ function getMainImage(gallery){
    GET IMAGE DATA
 ========================================== */
 
-function getImageData(thumbnail){
+function getImageData(
+    thumbnail
+){
 
     if(!thumbnail){
         return null;
@@ -77,14 +83,14 @@ function getImageData(thumbnail){
 
 
     const image =
-        thumbnail.querySelector("img");
+        thumbnail.querySelector(
+            "img"
+        );
 
 
     const source =
         thumbnail.dataset.image ||
-        thumbnail.getAttribute(
-            "data-src"
-        ) ||
+        thumbnail.dataset.src ||
         image?.currentSrc ||
         image?.src;
 
@@ -94,22 +100,22 @@ function getImageData(thumbnail){
     }
 
 
-    const alt =
-        thumbnail.dataset.alt ||
-        image?.alt ||
-        "";
-
-
     return {
+
         source,
-        alt
+
+        alt:
+            thumbnail.dataset.alt ||
+            image?.alt ||
+            ""
+
     };
 
 }
 
 
 /* ==========================================
-   UPDATE ACTIVE THUMBNAIL
+   UPDATE THUMBNAIL
 ========================================== */
 
 function updateActiveThumbnail(
@@ -117,26 +123,27 @@ function updateActiveThumbnail(
     index
 ){
 
-    const items =
-        getGalleryItems(gallery);
+    getGalleryItems(
+        gallery
+    ).forEach(
+        (
+            item,
+            itemIndex
+        ) => {
 
-
-    items.forEach(
-        (item, itemIndex) => {
-
-            const isActive =
+            const active =
                 itemIndex === index;
 
 
             item.classList.toggle(
                 "active",
-                isActive
+                active
             );
 
 
             item.setAttribute(
                 "aria-current",
-                isActive
+                active
                     ? "true"
                     : "false"
             );
@@ -156,17 +163,10 @@ function updateMainImage(
     index
 ){
 
-    const mainImage =
-        getMainImage(gallery);
-
-
-    if(!mainImage){
-        return;
-    }
-
-
     const items =
-        getGalleryItems(gallery);
+        getGalleryItems(
+            gallery
+        );
 
 
     const thumbnail =
@@ -174,37 +174,33 @@ function updateMainImage(
 
 
     const data =
-        getImageData(thumbnail);
+        getImageData(
+            thumbnail
+        );
 
 
-    if(!data){
+    const mainImage =
+        getMainImage(
+            gallery
+        );
+
+
+    if(
+        !data ||
+        !mainImage
+    ){
+
         return;
+
     }
 
 
-    /*
-     * Preload the selected image before
-     * replacing the currently displayed image.
-     */
-
-    const preload =
-        new Image();
-
-
-    preload.onload = () => {
-
-        mainImage.src =
-            data.source;
-
-
-        mainImage.alt =
-            data.alt;
-
-    };
-
-
-    preload.src =
+    mainImage.src =
         data.source;
+
+
+    mainImage.alt =
+        data.alt;
 
 
     updateActiveThumbnail(
@@ -230,7 +226,7 @@ function updateMainImage(
 
 
 /* ==========================================
-   SHOW GALLERY IMAGE
+   SHOW IMAGE
 ========================================== */
 
 function showImage(
@@ -239,7 +235,9 @@ function showImage(
 ){
 
     const items =
-        getGalleryItems(gallery);
+        getGalleryItems(
+            gallery
+        );
 
 
     if(!items.length){
@@ -264,10 +262,12 @@ function showImage(
 
 
 /* ==========================================
-   NEXT IMAGE
+   NEXT
 ========================================== */
 
-function nextImage(gallery){
+function nextImage(
+    gallery
+){
 
     const state =
         galleryStates.get(
@@ -289,10 +289,12 @@ function nextImage(gallery){
 
 
 /* ==========================================
-   PREVIOUS IMAGE
+   PREVIOUS
 ========================================== */
 
-function previousImage(gallery){
+function previousImage(
+    gallery
+){
 
     const state =
         galleryStates.get(
@@ -336,154 +338,20 @@ function handleThumbnailClick(
     }
 
 
-    const items =
-        getGalleryItems(gallery);
-
-
     const index =
-        items.indexOf(
+        getGalleryItems(
+            gallery
+        ).indexOf(
             thumbnail
         );
 
 
-    if(index === -1){
-        return;
-    }
+    if(index >= 0){
 
-
-    showImage(
-        gallery,
-        index
-    );
-
-}
-
-
-/* ==========================================
-   PREVIOUS BUTTON
-========================================== */
-
-function handlePreviousClick(
-    event
-){
-
-    const button =
-        event.currentTarget;
-
-
-    const gallery =
-        button.closest(
-            GALLERY_SELECTORS.gallery
+        showImage(
+            gallery,
+            index
         );
-
-
-    if(!gallery){
-        return;
-    }
-
-
-    previousImage(
-        gallery
-    );
-
-}
-
-
-/* ==========================================
-   NEXT BUTTON
-========================================== */
-
-function handleNextClick(
-    event
-){
-
-    const button =
-        event.currentTarget;
-
-
-    const gallery =
-        button.closest(
-            GALLERY_SELECTORS.gallery
-        );
-
-
-    if(!gallery){
-        return;
-    }
-
-
-    nextImage(
-        gallery
-    );
-
-}
-
-
-/* ==========================================
-   KEYBOARD NAVIGATION
-========================================== */
-
-function handleKeyboard(
-    event
-){
-
-    const gallery =
-        event.currentTarget;
-
-
-    if(!gallery){
-        return;
-    }
-
-
-    /*
-     * Only handle keyboard input when
-     * the gallery itself or one of its
-     * controls has focus.
-     */
-
-    const activeElement =
-        document.activeElement;
-
-
-    if(
-        !gallery.contains(
-            activeElement
-        )
-    ){
-
-        return;
-
-    }
-
-
-    switch(event.key){
-
-        case "ArrowLeft":
-
-            event.preventDefault();
-
-            previousImage(
-                gallery
-            );
-
-            break;
-
-
-        case "ArrowRight":
-
-            event.preventDefault();
-
-            nextImage(
-                gallery
-            );
-
-            break;
-
-
-        default:
-
-            break;
 
     }
 
@@ -499,11 +367,15 @@ function initializeGallery(
 ){
 
     const mainImage =
-        getMainImage(gallery);
+        getMainImage(
+            gallery
+        );
 
 
     const thumbnails =
-        getGalleryItems(gallery);
+        getGalleryItems(
+            gallery
+        );
 
 
     if(
@@ -516,10 +388,6 @@ function initializeGallery(
     }
 
 
-    /*
-     * Determine the initial image.
-     */
-
     let initialIndex =
         thumbnails.findIndex(
             (thumbnail) =>
@@ -531,7 +399,8 @@ function initializeGallery(
 
     if(initialIndex < 0){
 
-        initialIndex = 0;
+        initialIndex =
+            0;
 
     }
 
@@ -539,50 +408,31 @@ function initializeGallery(
     galleryStates.set(
         gallery,
         {
-            index:initialIndex
+            index:
+                initialIndex
         }
     );
 
 
-    /*
-     * Initialize thumbnail state.
-     */
-
-    updateActiveThumbnail(
+    updateMainImage(
         gallery,
         initialIndex
     );
 
 
-    /*
-     * Thumbnail events.
-     */
-
     thumbnails.forEach(
         (thumbnail) => {
+
+            thumbnail.setAttribute(
+                "tabindex",
+                "0"
+            );
+
 
             thumbnail.addEventListener(
                 "click",
                 handleThumbnailClick
             );
-
-
-            /*
-             * Ensure keyboard accessibility.
-             */
-
-            if(
-                !thumbnail.hasAttribute(
-                    "tabindex"
-                )
-            ){
-
-                thumbnail.setAttribute(
-                    "tabindex",
-                    "0"
-                );
-
-            }
 
 
             thumbnail.addEventListener(
@@ -601,7 +451,6 @@ function initializeGallery(
 
                     event.preventDefault();
 
-
                     thumbnail.click();
 
                 }
@@ -611,85 +460,104 @@ function initializeGallery(
     );
 
 
-    /*
-     * Previous button.
-     */
-
-    const previousButton =
+    const previous =
         gallery.querySelector(
             GALLERY_SELECTORS.previous
         );
 
 
-    if(previousButton){
+    if(previous){
 
-        previousButton.addEventListener(
+        previous.addEventListener(
             "click",
-            handlePreviousClick
+            () =>
+                previousImage(
+                    gallery
+                )
         );
 
     }
 
 
-    /*
-     * Next button.
-     */
-
-    const nextButton =
+    const next =
         gallery.querySelector(
             GALLERY_SELECTORS.next
         );
 
 
-    if(nextButton){
+    if(next){
 
-        nextButton.addEventListener(
+        next.addEventListener(
             "click",
-            handleNextClick
+            () =>
+                nextImage(
+                    gallery
+                )
         );
 
     }
 
 
-    /*
-     * Keyboard navigation.
-     */
-
     gallery.addEventListener(
         "keydown",
-        handleKeyboard
+        (event) => {
+
+            if(
+                !gallery.contains(
+                    document.activeElement
+                )
+            ){
+
+                return;
+
+            }
+
+
+            if(
+                event.key ===
+                "ArrowLeft"
+            ){
+
+                event.preventDefault();
+
+                previousImage(
+                    gallery
+                );
+
+            }
+
+
+            if(
+                event.key ===
+                "ArrowRight"
+            ){
+
+                event.preventDefault();
+
+                nextImage(
+                    gallery
+                );
+
+            }
+
+        }
     );
 
 }
 
 
 /* ==========================================
-   INITIALIZE ALL GALLERIES
+   INITIALIZE ALL
 ========================================== */
 
 export function initGallery(){
 
-    const galleries =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
             GALLERY_SELECTORS.gallery
+        )
+        .forEach(
+            initializeGallery
         );
-
-
-    if(!galleries.length){
-
-        return;
-
-    }
-
-
-    galleries.forEach(
-        (gallery) => {
-
-            initializeGallery(
-                gallery
-            );
-
-        }
-    );
 
 }

@@ -21,7 +21,7 @@ const ANIMATION_SELECTORS = {
 
 
 /* ==========================================
-   REDUCED MOTION DETECTION
+   REDUCED MOTION
 ========================================== */
 
 function prefersReducedMotion(){
@@ -34,7 +34,7 @@ function prefersReducedMotion(){
 
 
 /* ==========================================
-   APPLY REDUCED MOTION STATE
+   DISABLE ANIMATIONS
 ========================================== */
 
 function disableAnimations(){
@@ -45,14 +45,23 @@ function disableAnimations(){
         );
 
 
-    elements.forEach((element) => {
+    elements.forEach(
+        (element) => {
 
-        element.style.opacity = "1";
+            element.style.opacity =
+                "1";
 
-        element.style.transform =
-            "none";
 
-    });
+            element.style.transform =
+                "none";
+
+
+            element.classList.add(
+                "is-visible"
+            );
+
+        }
+    );
 
 }
 
@@ -76,11 +85,6 @@ function revealElement(
     );
 
 
-    /*
-     * Once revealed, the element no longer
-     * needs to be observed.
-     */
-
     if(observer){
 
         observer.unobserve(
@@ -93,35 +97,44 @@ function revealElement(
 
 
 /* ==========================================
-   CREATE REVEAL OBSERVER
+   CREATE OBSERVER
 ========================================== */
 
 function createRevealObserver(){
 
     return new IntersectionObserver(
-        (entries, observer) => {
+        (
+            entries,
+            observer
+        ) => {
 
-            entries.forEach((entry) => {
+            entries.forEach(
+                (entry) => {
 
-                if(!entry.isIntersecting){
-                    return;
+                    if(
+                        !entry.isIntersecting
+                    ){
+
+                        return;
+
+                    }
+
+
+                    revealElement(
+                        entry.target,
+                        observer
+                    );
+
                 }
-
-
-                revealElement(
-                    entry.target,
-                    observer
-                );
-
-            });
+            );
 
         },
         {
-            threshold:0.15,
+            threshold:
+                0.15,
 
             rootMargin:
                 "0px 0px -40px 0px"
-
         }
     );
 
@@ -129,7 +142,7 @@ function createRevealObserver(){
 
 
 /* ==========================================
-   INITIALIZE REVEAL ANIMATIONS
+   INITIALIZE REVEALS
 ========================================== */
 
 function initializeRevealAnimations(){
@@ -145,23 +158,44 @@ function initializeRevealAnimations(){
     }
 
 
+    if(
+        !("IntersectionObserver" in window)
+    ){
+
+        elements.forEach(
+            (element) => {
+
+                revealElement(
+                    element
+                );
+
+            }
+        );
+
+        return;
+
+    }
+
+
     const observer =
         createRevealObserver();
 
 
-    elements.forEach((element) => {
+    elements.forEach(
+        (element) => {
 
-        observer.observe(
-            element
-        );
+            observer.observe(
+                element
+            );
 
-    });
+        }
+    );
 
 }
 
 
 /* ==========================================
-   STAGGER CHILDREN
+   INITIALIZE STAGGER
 ========================================== */
 
 function initializeStaggerAnimations(){
@@ -172,46 +206,40 @@ function initializeStaggerAnimations(){
         );
 
 
-    if(!containers.length){
-        return;
-    }
+    containers.forEach(
+        (container) => {
 
-
-    containers.forEach((container) => {
-
-        const children =
             Array.from(
                 container.children
+            ).forEach(
+                (
+                    child,
+                    index
+                ) => {
+
+                    child.style.setProperty(
+                        "--animation-delay",
+                        `${index * 100}ms`
+                    );
+
+                }
             );
 
-
-        children.forEach(
-            (child, index) => {
-
-                child.style.setProperty(
-                    "--animation-delay",
-                    `${index * 100}ms`
-                );
-
-            }
-        );
-
-    });
+        }
+    );
 
 }
 
 
 /* ==========================================
-   INITIALIZE ANIMATION SYSTEM
+   INITIALIZE ANIMATIONS
 ========================================== */
 
 export function initAnimations(){
 
-    /*
-     * Respect accessibility preferences.
-     */
-
-    if(prefersReducedMotion()){
+    if(
+        prefersReducedMotion()
+    ){
 
         disableAnimations();
 
@@ -220,16 +248,7 @@ export function initAnimations(){
     }
 
 
-    /*
-     * Prepare staggered elements.
-     */
-
     initializeStaggerAnimations();
-
-
-    /*
-     * Initialize viewport reveals.
-     */
 
     initializeRevealAnimations();
 
@@ -237,12 +256,14 @@ export function initAnimations(){
 
 
 /* ==========================================
-   PUBLIC REFRESH FUNCTION
+   REFRESH ANIMATIONS
 ========================================== */
 
 export function refreshAnimations(){
 
-    if(prefersReducedMotion()){
+    if(
+        prefersReducedMotion()
+    ){
 
         disableAnimations();
 

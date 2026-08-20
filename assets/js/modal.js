@@ -31,22 +31,16 @@ const modalStates =
     new WeakMap();
 
 
-/* ==========================================
-   CURRENT ACTIVE MODAL
-========================================== */
-
-let activeModal = null;
+let activeModal =
+    null;
 
 
-/* ==========================================
-   PREVIOUSLY FOCUSED ELEMENT
-========================================== */
-
-let previouslyFocusedElement = null;
+let previouslyFocusedElement =
+    null;
 
 
 /* ==========================================
-   BODY SCROLL LOCK
+   BODY SCROLL
 ========================================== */
 
 function lockBodyScroll(){
@@ -58,10 +52,6 @@ function lockBodyScroll(){
 }
 
 
-/* ==========================================
-   BODY SCROLL UNLOCK
-========================================== */
-
 function unlockBodyScroll(){
 
     document.body.classList.remove(
@@ -72,10 +62,12 @@ function unlockBodyScroll(){
 
 
 /* ==========================================
-   GET FOCUSABLE ELEMENTS
+   FOCUSABLE ELEMENTS
 ========================================== */
 
-function getFocusableElements(modal){
+function getFocusableElements(
+    modal
+){
 
     return Array.from(
         modal.querySelectorAll(
@@ -90,25 +82,22 @@ function getFocusableElements(modal){
             ].join(",")
         )
     ).filter(
-        (element) => {
-
-            return (
-                element.offsetWidth > 0 ||
-                element.offsetHeight > 0 ||
-                element === document.activeElement
-            );
-
-        }
+        (element) =>
+            element.offsetWidth > 0 ||
+            element.offsetHeight > 0 ||
+            element === document.activeElement
     );
 
 }
 
 
 /* ==========================================
-   FOCUS FIRST ELEMENT
+   FOCUS FIRST
 ========================================== */
 
-function focusFirstElement(modal){
+function focusFirstElement(
+    modal
+){
 
     const focusable =
         getFocusableElements(
@@ -137,18 +126,20 @@ function focusFirstElement(modal){
 
 
 /* ==========================================
-   HANDLE FOCUS TRAP
+   FOCUS TRAP
 ========================================== */
 
-function handleFocusTrap(event){
+function handleFocusTrap(
+    event
+){
 
-    if(!activeModal){
+    if(
+        !activeModal ||
+        event.key !== "Tab"
+    ){
+
         return;
-    }
 
-
-    if(event.key !== "Tab"){
-        return;
     }
 
 
@@ -208,24 +199,23 @@ function handleFocusTrap(event){
 
 
 /* ==========================================
-   HANDLE ESCAPE
+   ESCAPE
 ========================================== */
 
-function handleEscape(event){
+function handleEscape(
+    event
+){
 
     if(
-        event.key !== "Escape" ||
-        !activeModal
+        event.key === "Escape" &&
+        activeModal
     ){
 
-        return;
+        closeModal(
+            activeModal
+        );
 
     }
-
-
-    closeModal(
-        activeModal
-    );
 
 }
 
@@ -234,17 +224,14 @@ function handleEscape(event){
    OPEN MODAL
 ========================================== */
 
-function openModal(modal){
+function openModal(
+    modal
+){
 
     if(!modal){
         return;
     }
 
-
-    /*
-     * Close another modal first if one
-     * is already active.
-     */
 
     if(
         activeModal &&
@@ -252,7 +239,8 @@ function openModal(modal){
     ){
 
         closeModal(
-            activeModal
+            activeModal,
+            false
         );
 
     }
@@ -269,14 +257,11 @@ function openModal(modal){
     modalStates.set(
         modal,
         {
-            isOpen:true
+            isOpen:
+                true
         }
     );
 
-
-    /*
-     * Make the modal visible.
-     */
 
     modal.classList.add(
         "is-open"
@@ -289,19 +274,10 @@ function openModal(modal){
     );
 
 
-    /*
-     * Prevent the page behind the modal
-     * from scrolling.
-     */
-
     lockBodyScroll();
 
 
-    /*
-     * Focus the first available control.
-     */
-
-    window.requestAnimationFrame(
+    requestAnimationFrame(
         () => {
 
             focusFirstElement(
@@ -318,7 +294,10 @@ function openModal(modal){
    CLOSE MODAL
 ========================================== */
 
-function closeModal(modal){
+function closeModal(
+    modal,
+    restoreFocus = true
+){
 
     if(!modal){
         return;
@@ -339,12 +318,15 @@ function closeModal(modal){
     modalStates.set(
         modal,
         {
-            isOpen:false
+            isOpen:
+                false
         }
     );
 
 
-    if(activeModal === modal){
+    if(
+        activeModal === modal
+    ){
 
         activeModal =
             null;
@@ -355,12 +337,8 @@ function closeModal(modal){
     unlockBodyScroll();
 
 
-    /*
-     * Restore focus to the element that
-     * originally opened the modal.
-     */
-
     if(
+        restoreFocus &&
         previouslyFocusedElement &&
         document.contains(
             previouslyFocusedElement
@@ -372,42 +350,10 @@ function closeModal(modal){
     }
 
 
-    previouslyFocusedElement =
-        null;
+    if(restoreFocus){
 
-}
-
-
-/* ==========================================
-   TOGGLE MODAL
-========================================== */
-
-function toggleModal(modal){
-
-    if(!modal){
-        return;
-    }
-
-
-    const state =
-        modalStates.get(
-            modal
-        );
-
-
-    if(
-        state?.isOpen
-    ){
-
-        closeModal(
-            modal
-        );
-
-    }else{
-
-        openModal(
-            modal
-        );
+        previouslyFocusedElement =
+            null;
 
     }
 
@@ -415,10 +361,12 @@ function toggleModal(modal){
 
 
 /* ==========================================
-   FIND MODAL BY ID
+   GET MODAL BY ID
 ========================================== */
 
-function getModalById(id){
+function getModalById(
+    id
+){
 
     if(!id){
         return null;
@@ -433,10 +381,12 @@ function getModalById(id){
 
 
 /* ==========================================
-   OPEN BUTTON HANDLER
+   OPEN BUTTON
 ========================================== */
 
-function handleOpenClick(event){
+function handleOpenClick(
+    event
+){
 
     const trigger =
         event.currentTarget;
@@ -470,17 +420,15 @@ function handleOpenClick(event){
 
 
 /* ==========================================
-   CLOSE BUTTON HANDLER
+   CLOSE BUTTON
 ========================================== */
 
-function handleCloseClick(event){
-
-    const trigger =
-        event.currentTarget;
-
+function handleCloseClick(
+    event
+){
 
     const modal =
-        trigger.closest(
+        event.currentTarget.closest(
             MODAL_SELECTORS.modal
         );
 
@@ -501,22 +449,16 @@ function handleCloseClick(event){
 
 
 /* ==========================================
-   BACKDROP CLICK
+   BACKDROP
 ========================================== */
 
-function handleModalClick(event){
+function handleModalClick(
+    event
+){
 
     const modal =
         event.currentTarget;
 
-
-    /*
-     * Only close when the actual modal
-     * backdrop itself is clicked.
-     *
-     * Clicking content inside the modal
-     * does not close it.
-     */
 
     if(
         event.target === modal
@@ -535,33 +477,24 @@ function handleModalClick(event){
    INITIALIZE MODAL
 ========================================== */
 
-function initializeModal(modal){
+function initializeModal(
+    modal
+){
 
-    if(
-        !modal.hasAttribute(
-            "aria-hidden"
-        )
-    ){
-
-        modal.setAttribute(
-            "aria-hidden",
-            "true"
-        );
-
-    }
+    modal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
 
 
     modalStates.set(
         modal,
         {
-            isOpen:false
+            isOpen:
+                false
         }
     );
 
-
-    /*
-     * Backdrop click.
-     */
 
     modal.addEventListener(
         "click",
@@ -569,17 +502,9 @@ function initializeModal(modal){
     );
 
 
-    /*
-     * Close controls.
-     */
-
-    const closeButtons =
-        modal.querySelectorAll(
-            MODAL_SELECTORS.close
-        );
-
-
-    closeButtons.forEach(
+    modal.querySelectorAll(
+        MODAL_SELECTORS.close
+    ).forEach(
         (button) => {
 
             button.addEventListener(
@@ -594,36 +519,35 @@ function initializeModal(modal){
 
 
 /* ==========================================
-   INITIALIZE MODAL TRIGGERS
+   INITIALIZE SYSTEM
 ========================================== */
 
-function initializeModalTriggers(){
+export function initModal(){
 
-    const triggers =
-        document.querySelectorAll(
-            MODAL_SELECTORS.open
+    document
+        .querySelectorAll(
+            MODAL_SELECTORS.modal
+        )
+        .forEach(
+            initializeModal
         );
 
 
-    triggers.forEach(
-        (trigger) => {
+    document
+        .querySelectorAll(
+            MODAL_SELECTORS.open
+        )
+        .forEach(
+            (trigger) => {
 
-            trigger.addEventListener(
-                "click",
-                handleOpenClick
-            );
+                trigger.addEventListener(
+                    "click",
+                    handleOpenClick
+                );
 
-        }
-    );
+            }
+        );
 
-}
-
-
-/* ==========================================
-   INITIALIZE GLOBAL KEYBOARD EVENTS
-========================================== */
-
-function initializeKeyboardEvents(){
 
     document.addEventListener(
         "keydown",
@@ -640,103 +564,73 @@ function initializeKeyboardEvents(){
 
 
 /* ==========================================
-   CLOSE ALL MODALS
+   PUBLIC OPEN
+========================================== */
+
+export function showModal(
+    id
+){
+
+    const modal =
+        getModalById(
+            id
+        );
+
+
+    if(modal){
+
+        openModal(
+            modal
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   PUBLIC CLOSE
+========================================== */
+
+export function hideModal(
+    id
+){
+
+    const modal =
+        getModalById(
+            id
+        );
+
+
+    if(modal){
+
+        closeModal(
+            modal
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   CLOSE ALL
 ========================================== */
 
 export function closeAllModals(){
 
-    const modals =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
             MODAL_SELECTORS.modal
+        )
+        .forEach(
+            (modal) => {
+
+                closeModal(
+                    modal
+                );
+
+            }
         );
-
-
-    modals.forEach(
-        (modal) => {
-
-            closeModal(
-                modal
-            );
-
-        }
-    );
-
-}
-
-
-/* ==========================================
-   PUBLIC OPEN MODAL
-========================================== */
-
-export function showModal(id){
-
-    const modal =
-        getModalById(
-            id
-        );
-
-
-    if(!modal){
-        return;
-    }
-
-
-    openModal(
-        modal
-    );
-
-}
-
-
-/* ==========================================
-   PUBLIC CLOSE MODAL
-========================================== */
-
-export function hideModal(id){
-
-    const modal =
-        getModalById(
-            id
-        );
-
-
-    if(!modal){
-        return;
-    }
-
-
-    closeModal(
-        modal
-    );
-
-}
-
-
-/* ==========================================
-   INITIALIZE MODAL SYSTEM
-========================================== */
-
-export function initModal(){
-
-    const modals =
-        document.querySelectorAll(
-            MODAL_SELECTORS.modal
-        );
-
-
-    modals.forEach(
-        (modal) => {
-
-            initializeModal(
-                modal
-            );
-
-        }
-    );
-
-
-    initializeModalTriggers();
-
-    initializeKeyboardEvents();
 
 }

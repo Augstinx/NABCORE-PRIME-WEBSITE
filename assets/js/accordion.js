@@ -35,10 +35,12 @@ const accordionStates =
 
 
 /* ==========================================
-   GET ACCORDION ITEMS
+   GET ITEMS
 ========================================== */
 
-function getAccordionItems(accordion){
+function getAccordionItems(
+    accordion
+){
 
     return Array.from(
         accordion.querySelectorAll(
@@ -53,7 +55,9 @@ function getAccordionItems(accordion){
    GET TRIGGER
 ========================================== */
 
-function getTrigger(item){
+function getTrigger(
+    item
+){
 
     return item.querySelector(
         ACCORDION_SELECTORS.trigger
@@ -66,7 +70,9 @@ function getTrigger(item){
    GET CONTENT
 ========================================== */
 
-function getContent(item){
+function getContent(
+    item
+){
 
     return item.querySelector(
         ACCORDION_SELECTORS.content
@@ -76,10 +82,12 @@ function getContent(item){
 
 
 /* ==========================================
-   GET ITEM STATE
+   CHECK OPEN STATE
 ========================================== */
 
-function isItemOpen(item){
+function isItemOpen(
+    item
+){
 
     return item.classList.contains(
         "is-open"
@@ -102,17 +110,10 @@ function setContentHeight(
     }
 
 
-    if(isOpen){
-
-        content.style.maxHeight =
-            `${content.scrollHeight}px`;
-
-    }else{
-
-        content.style.maxHeight =
-            "0px";
-
-    }
+    content.style.maxHeight =
+        isOpen
+            ? `${content.scrollHeight}px`
+            : "0px";
 
 }
 
@@ -127,11 +128,15 @@ function updateAccessibility(
 ){
 
     const trigger =
-        getTrigger(item);
+        getTrigger(
+            item
+        );
 
 
     const content =
-        getContent(item);
+        getContent(
+            item
+        );
 
 
     if(trigger){
@@ -164,10 +169,14 @@ function updateAccessibility(
    CLOSE ITEM
 ========================================== */
 
-function closeItem(item){
+function closeItem(
+    item
+){
 
     const content =
-        getContent(item);
+        getContent(
+            item
+        );
 
 
     item.classList.remove(
@@ -193,10 +202,14 @@ function closeItem(item){
    OPEN ITEM
 ========================================== */
 
-function openItem(item){
+function openItem(
+    item
+){
 
     const content =
-        getContent(item);
+        getContent(
+            item
+        );
 
 
     item.classList.add(
@@ -227,13 +240,9 @@ function closeOtherItems(
     currentItem
 ){
 
-    const items =
-        getAccordionItems(
-            accordion
-        );
-
-
-    items.forEach(
+    getAccordionItems(
+        accordion
+    ).forEach(
         (item) => {
 
             if(
@@ -272,13 +281,9 @@ function toggleItem(
     }
 
 
-    const currentlyOpen =
-        isItemOpen(
-            item
-        );
-
-
-    if(currentlyOpen){
+    if(
+        isItemOpen(item)
+    ){
 
         closeItem(
             item
@@ -288,11 +293,6 @@ function toggleItem(
 
     }
 
-
-    /*
-     * In single-open mode, close all
-     * other items before opening this one.
-     */
 
     if(
         state.singleOpen
@@ -314,10 +314,12 @@ function toggleItem(
 
 
 /* ==========================================
-   HANDLE TRIGGER CLICK
+   HANDLE CLICK
 ========================================== */
 
-function handleTriggerClick(event){
+function handleTriggerClick(
+    event
+){
 
     const trigger =
         event.currentTarget;
@@ -360,29 +362,23 @@ function handleTriggerClick(event){
    HANDLE KEYBOARD
 ========================================== */
 
-function handleKeyboard(event){
+function handleKeyboard(
+    event
+){
 
-    const trigger =
-        event.currentTarget;
+    if(
+        event.key !== "Enter" &&
+        event.key !== " "
+    ){
 
-
-    switch(event.key){
-
-        case "Enter":
-        case " ":
-
-            event.preventDefault();
-
-            trigger.click();
-
-            break;
-
-
-        default:
-
-            break;
+        return;
 
     }
+
+
+    event.preventDefault();
+
+    event.currentTarget.click();
 
 }
 
@@ -391,14 +387,20 @@ function handleKeyboard(event){
    INITIALIZE ITEM
 ========================================== */
 
-function initializeItem(item){
+function initializeItem(
+    item
+){
 
     const trigger =
-        getTrigger(item);
+        getTrigger(
+            item
+        );
 
 
     const content =
-        getContent(item);
+        getContent(
+            item
+        );
 
 
     if(
@@ -411,13 +413,7 @@ function initializeItem(item){
     }
 
 
-    /*
-     * Generate IDs when necessary.
-     */
-
-    if(
-        !trigger.id
-    ){
+    if(!trigger.id){
 
         trigger.id =
             `accordion-trigger-${crypto.randomUUID()}`;
@@ -425,19 +421,13 @@ function initializeItem(item){
     }
 
 
-    if(
-        !content.id
-    ){
+    if(!content.id){
 
         content.id =
             `accordion-content-${crypto.randomUUID()}`;
 
     }
 
-
-    /*
-     * Connect trigger and content.
-     */
 
     trigger.setAttribute(
         "aria-controls",
@@ -457,14 +447,9 @@ function initializeItem(item){
     );
 
 
-    /*
-     * Determine initial state from
-     * the existing .is-open class.
-     */
-
     const initiallyOpen =
-        item.classList.contains(
-            "is-open"
+        isItemOpen(
+            item
         );
 
 
@@ -479,10 +464,6 @@ function initializeItem(item){
         initiallyOpen
     );
 
-
-    /*
-     * Trigger events.
-     */
 
     trigger.addEventListener(
         "click",
@@ -517,18 +498,6 @@ function initializeAccordion(
     }
 
 
-    /*
-     * Determine whether the accordion
-     * should allow only one open item.
-     *
-     * Default:
-     * single-open = true
-     *
-     * To allow multiple open items:
-     *
-     * data-single-open="false"
-     */
-
     const singleOpen =
         accordion.dataset.singleOpen !==
         "false";
@@ -543,25 +512,14 @@ function initializeAccordion(
 
 
     items.forEach(
-        (item) => {
-
-            initializeItem(
-                item
-            );
-
-        }
+        initializeItem
     );
 
 
-    /*
-     * If single-open mode is active,
-     * make sure only one initially-open
-     * item remains open.
-     */
-
     if(singleOpen){
 
-        let foundOpenItem = false;
+        let foundOpenItem =
+            false;
 
 
         items.forEach(
@@ -576,9 +534,7 @@ function initializeAccordion(
                 }
 
 
-                if(
-                    !foundOpenItem
-                ){
+                if(!foundOpenItem){
 
                     foundOpenItem =
                         true;
@@ -600,58 +556,48 @@ function initializeAccordion(
 
 
 /* ==========================================
-   HANDLE WINDOW RESIZE
+   RESIZE
 ========================================== */
 
 function handleResize(){
 
-    const accordions =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
             ACCORDION_SELECTORS.accordion
-        );
+        )
+        .forEach(
+            (accordion) => {
 
-
-    accordions.forEach(
-        (accordion) => {
-
-            const items =
                 getAccordionItems(
                     accordion
-                );
+                ).forEach(
+                    (item) => {
+
+                        if(
+                            !isItemOpen(item)
+                        ){
+
+                            return;
+
+                        }
 
 
-            items.forEach(
-                (item) => {
-
-                    if(
-                        !isItemOpen(item)
-                    ){
-
-                        return;
+                        setContentHeight(
+                            getContent(item),
+                            true
+                        );
 
                     }
+                );
 
-
-                    const content =
-                        getContent(item);
-
-
-                    setContentHeight(
-                        content,
-                        true
-                    );
-
-                }
-            );
-
-        }
-    );
+            }
+        );
 
 }
 
 
 /* ==========================================
-   INITIALIZE ALL ACCORDIONS
+   INITIALIZE ALL
 ========================================== */
 
 export function initAccordion(){
@@ -663,27 +609,14 @@ export function initAccordion(){
 
 
     if(!accordions.length){
-
         return;
-
     }
 
 
     accordions.forEach(
-        (accordion) => {
-
-            initializeAccordion(
-                accordion
-            );
-
-        }
+        initializeAccordion
     );
 
-
-    /*
-     * Recalculate open content heights
-     * when the viewport changes.
-     */
 
     window.addEventListener(
         "resize",

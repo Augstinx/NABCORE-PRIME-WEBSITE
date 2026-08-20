@@ -33,22 +33,22 @@ const SLIDER_SELECTORS = {
 
 
 /* ==========================================
-   SLIDER CONFIGURATION
+   CONFIGURATION
 ========================================== */
 
 const SLIDER_CONFIG = {
 
-    transitionDuration:400,
+    transitionDuration:
+        400,
 
-    swipeThreshold:50,
-
-    autoplayInterval:5000
+    swipeThreshold:
+        50
 
 };
 
 
 /* ==========================================
-   SLIDER STATE
+   STATE
 ========================================== */
 
 const sliderStates =
@@ -72,7 +72,9 @@ function prefersReducedMotion(){
    GET SLIDES
 ========================================== */
 
-function getSlides(slider){
+function getSlides(
+    slider
+){
 
     return Array.from(
         slider.querySelectorAll(
@@ -87,7 +89,9 @@ function getSlides(slider){
    GET TRACK
 ========================================== */
 
-function getTrack(slider){
+function getTrack(
+    slider
+){
 
     return slider.querySelector(
         SLIDER_SELECTORS.track
@@ -100,10 +104,14 @@ function getTrack(slider){
    GET VISIBLE SLIDES
 ========================================== */
 
-function getVisibleSlides(slider){
+function getVisibleSlides(
+    slider
+){
 
     const slides =
-        getSlides(slider);
+        getSlides(
+            slider
+        );
 
 
     if(!slides.length){
@@ -120,7 +128,9 @@ function getVisibleSlides(slider){
 
 
     const track =
-        getTrack(slider);
+        getTrack(
+            slider
+        );
 
 
     if(
@@ -152,27 +162,29 @@ function getVisibleSlides(slider){
    GET MAX INDEX
 ========================================== */
 
-function getMaxIndex(slider){
+function getMaxIndex(
+    slider
+){
 
     const slides =
-        getSlides(slider);
-
-
-    const visibleSlides =
-        getVisibleSlides(slider);
+        getSlides(
+            slider
+        );
 
 
     return Math.max(
         0,
         slides.length -
-        visibleSlides
+        getVisibleSlides(
+            slider
+        )
     );
 
 }
 
 
 /* ==========================================
-   UPDATE SLIDER POSITION
+   UPDATE POSITION
 ========================================== */
 
 function updateSliderPosition(
@@ -181,16 +193,15 @@ function updateSliderPosition(
 ){
 
     const track =
-        getTrack(slider);
-
-
-    if(!track){
-        return;
-    }
+        getTrack(
+            slider
+        );
 
 
     const slides =
-        getSlides(slider);
+        getSlides(
+            slider
+        );
 
 
     const state =
@@ -200,8 +211,9 @@ function updateSliderPosition(
 
 
     if(
-        !state ||
-        !slides.length
+        !track ||
+        !slides.length ||
+        !state
     ){
 
         return;
@@ -209,17 +221,15 @@ function updateSliderPosition(
     }
 
 
-    const slide =
-        slides[0];
-
-
     const slideWidth =
-        slide.getBoundingClientRect().width;
+        slides[0]
+            .getBoundingClientRect()
+            .width;
 
 
     const gap =
         parseFloat(
-            window.getComputedStyle(
+            getComputedStyle(
                 track
             ).gap
         ) || 0;
@@ -238,7 +248,7 @@ function updateSliderPosition(
 
 
     track.style.transform =
-        `translate3d(-${offset}px,0,0)`;
+        `translate3d(-${offset}px, 0, 0)`;
 
 }
 
@@ -247,7 +257,9 @@ function updateSliderPosition(
    UPDATE INDICATORS
 ========================================== */
 
-function updateIndicators(slider){
+function updateIndicators(
+    slider
+){
 
     const indicators =
         Array.from(
@@ -255,11 +267,6 @@ function updateIndicators(slider){
                 SLIDER_SELECTORS.indicator
             )
         );
-
-
-    if(!indicators.length){
-        return;
-    }
 
 
     const state =
@@ -274,21 +281,24 @@ function updateIndicators(slider){
 
 
     indicators.forEach(
-        (indicator, index) => {
+        (
+            indicator,
+            index
+        ) => {
 
-            const isActive =
+            const active =
                 index === state.index;
 
 
             indicator.classList.toggle(
                 "active",
-                isActive
+                active
             );
 
 
             indicator.setAttribute(
                 "aria-current",
-                isActive
+                active
                     ? "true"
                     : "false"
             );
@@ -300,7 +310,7 @@ function updateIndicators(slider){
 
 
 /* ==========================================
-   UPDATE ARIA STATES
+   UPDATE ACCESSIBILITY
 ========================================== */
 
 function updateSlideAccessibility(
@@ -308,7 +318,9 @@ function updateSlideAccessibility(
 ){
 
     const slides =
-        getSlides(slider);
+        getSlides(
+            slider
+        );
 
 
     const state =
@@ -322,18 +334,22 @@ function updateSlideAccessibility(
     }
 
 
-    const visibleSlides =
-        getVisibleSlides(slider);
+    const visible =
+        getVisibleSlides(
+            slider
+        );
 
 
     slides.forEach(
-        (slide, index) => {
+        (
+            slide,
+            index
+        ) => {
 
             const isVisible =
                 index >= state.index &&
                 index <
-                state.index +
-                visibleSlides;
+                state.index + visible;
 
 
             slide.setAttribute(
@@ -353,7 +369,9 @@ function updateSlideAccessibility(
    UPDATE CONTROLS
 ========================================== */
 
-function updateControls(slider){
+function updateControls(
+    slider
+){
 
     const state =
         sliderStates.get(
@@ -367,7 +385,9 @@ function updateControls(slider){
 
 
     const maxIndex =
-        getMaxIndex(slider);
+        getMaxIndex(
+            slider
+        );
 
 
     const previous =
@@ -442,10 +462,6 @@ function goToSlide(
     animate = true
 ){
 
-    const maxIndex =
-        getMaxIndex(slider);
-
-
     const state =
         sliderStates.get(
             slider
@@ -455,6 +471,12 @@ function goToSlide(
     if(!state){
         return;
     }
+
+
+    const maxIndex =
+        getMaxIndex(
+            slider
+        );
 
 
     state.index =
@@ -476,10 +498,12 @@ function goToSlide(
 
 
 /* ==========================================
-   NEXT SLIDE
+   NEXT
 ========================================== */
 
-function nextSlide(slider){
+function nextSlide(
+    slider
+){
 
     const state =
         sliderStates.get(
@@ -489,19 +513,6 @@ function nextSlide(slider){
 
     if(!state){
         return;
-    }
-
-
-    const maxIndex =
-        getMaxIndex(slider);
-
-
-    if(
-        state.index >= maxIndex
-    ){
-
-        return;
-
     }
 
 
@@ -514,10 +525,12 @@ function nextSlide(slider){
 
 
 /* ==========================================
-   PREVIOUS SLIDE
+   PREVIOUS
 ========================================== */
 
-function previousSlide(slider){
+function previousSlide(
+    slider
+){
 
     const state =
         sliderStates.get(
@@ -530,13 +543,6 @@ function previousSlide(slider){
     }
 
 
-    if(state.index <= 0){
-
-        return;
-
-    }
-
-
     goToSlide(
         slider,
         state.index - 1
@@ -546,177 +552,12 @@ function previousSlide(slider){
 
 
 /* ==========================================
-   PREVIOUS BUTTON
+   INITIALIZE TOUCH
 ========================================== */
 
-function handlePreviousClick(event){
-
-    const button =
-        event.currentTarget;
-
-
-    const slider =
-        button.closest(
-            SLIDER_SELECTORS.slider
-        );
-
-
-    if(!slider){
-        return;
-    }
-
-
-    previousSlide(
-        slider
-    );
-
-}
-
-
-/* ==========================================
-   NEXT BUTTON
-========================================== */
-
-function handleNextClick(event){
-
-    const button =
-        event.currentTarget;
-
-
-    const slider =
-        button.closest(
-            SLIDER_SELECTORS.slider
-        );
-
-
-    if(!slider){
-        return;
-    }
-
-
-    nextSlide(
-        slider
-    );
-
-}
-
-
-/* ==========================================
-   INDICATOR CLICK
-========================================== */
-
-function handleIndicatorClick(event){
-
-    const indicator =
-        event.currentTarget;
-
-
-    const slider =
-        indicator.closest(
-            SLIDER_SELECTORS.slider
-        );
-
-
-    if(!slider){
-        return;
-    }
-
-
-    const indicators =
-        Array.from(
-            slider.querySelectorAll(
-                SLIDER_SELECTORS.indicator
-            )
-        );
-
-
-    const index =
-        indicators.indexOf(
-            indicator
-        );
-
-
-    if(index === -1){
-        return;
-    }
-
-
-    goToSlide(
-        slider,
-        index
-    );
-
-}
-
-
-/* ==========================================
-   KEYBOARD NAVIGATION
-========================================== */
-
-function handleKeyboard(event){
-
-    const slider =
-        event.currentTarget;
-
-
-    if(!slider){
-        return;
-    }
-
-
-    const activeElement =
-        document.activeElement;
-
-
-    if(
-        !slider.contains(
-            activeElement
-        )
-    ){
-
-        return;
-
-    }
-
-
-    switch(event.key){
-
-        case "ArrowLeft":
-
-            event.preventDefault();
-
-            previousSlide(
-                slider
-            );
-
-            break;
-
-
-        case "ArrowRight":
-
-            event.preventDefault();
-
-            nextSlide(
-                slider
-            );
-
-            break;
-
-
-        default:
-
-            break;
-
-    }
-
-}
-
-
-/* ==========================================
-   TOUCH / SWIPE SUPPORT
-========================================== */
-
-function initializeTouch(slider){
+function initializeTouch(
+    slider
+){
 
     let startX = 0;
     let startY = 0;
@@ -744,7 +585,7 @@ function initializeTouch(slider){
 
         },
         {
-            passive:true
+            passive: true
         }
     );
 
@@ -771,11 +612,6 @@ function initializeTouch(slider){
                 touch.clientY -
                 startY;
 
-
-            /*
-             * Ignore predominantly vertical
-             * gestures.
-             */
 
             if(
                 Math.abs(deltaY) >
@@ -813,20 +649,9 @@ function initializeTouch(slider){
 
         },
         {
-            passive:true
+            passive: true
         }
     );
-
-}
-
-
-/* ==========================================
-   RESIZE HANDLING
-========================================== */
-
-function handleResize(){
-
-    sliderStates.forEach?.(() => {});
 
 }
 
@@ -835,14 +660,20 @@ function handleResize(){
    INITIALIZE SLIDER
 ========================================== */
 
-function initializeSlider(slider){
+function initializeSlider(
+    slider
+){
 
     const track =
-        getTrack(slider);
+        getTrack(
+            slider
+        );
 
 
     const slides =
-        getSlides(slider);
+        getSlides(
+            slider
+        );
 
 
     if(
@@ -855,21 +686,13 @@ function initializeSlider(slider){
     }
 
 
-    /*
-     * Initialize state.
-     */
-
     sliderStates.set(
         slider,
         {
-            index:0
+            index: 0
         }
     );
 
-
-    /*
-     * Track accessibility.
-     */
 
     slider.setAttribute(
         "role",
@@ -891,10 +714,6 @@ function initializeSlider(slider){
     }
 
 
-    /*
-     * Slide accessibility.
-     */
-
     slides.forEach(
         (slide) => {
 
@@ -907,29 +726,11 @@ function initializeSlider(slider){
     );
 
 
-    /*
-     * Previous control.
-     */
-
     const previous =
         slider.querySelector(
             SLIDER_SELECTORS.previous
         );
 
-
-    if(previous){
-
-        previous.addEventListener(
-            "click",
-            handlePreviousClick
-        );
-
-    }
-
-
-    /*
-     * Next control.
-     */
 
     const next =
         slider.querySelector(
@@ -937,60 +738,105 @@ function initializeSlider(slider){
         );
 
 
-    if(next){
+    if(previous){
 
-        next.addEventListener(
+        previous.addEventListener(
             "click",
-            handleNextClick
+            () =>
+                previousSlide(
+                    slider
+                )
         );
 
     }
 
 
-    /*
-     * Indicators.
-     */
+    if(next){
 
-    const indicators =
-        slider.querySelectorAll(
+        next.addEventListener(
+            "click",
+            () =>
+                nextSlide(
+                    slider
+                )
+        );
+
+    }
+
+
+    slider
+        .querySelectorAll(
             SLIDER_SELECTORS.indicator
+        )
+        .forEach(
+            (
+                indicator,
+                index
+            ) => {
+
+                indicator.addEventListener(
+                    "click",
+                    () =>
+                        goToSlide(
+                            slider,
+                            index
+                        )
+                );
+
+            }
         );
 
 
-    indicators.forEach(
-        (indicator) => {
+    slider.addEventListener(
+        "keydown",
+        (event) => {
 
-            indicator.addEventListener(
-                "click",
-                handleIndicatorClick
-            );
+            if(
+                !slider.contains(
+                    document.activeElement
+                )
+            ){
+
+                return;
+
+            }
+
+
+            if(
+                event.key ===
+                "ArrowLeft"
+            ){
+
+                event.preventDefault();
+
+                previousSlide(
+                    slider
+                );
+
+            }
+
+
+            if(
+                event.key ===
+                "ArrowRight"
+            ){
+
+                event.preventDefault();
+
+                nextSlide(
+                    slider
+                );
+
+            }
 
         }
     );
 
 
-    /*
-     * Keyboard support.
-     */
-
-    slider.addEventListener(
-        "keydown",
-        handleKeyboard
-    );
-
-
-    /*
-     * Touch support.
-     */
-
     initializeTouch(
         slider
     );
 
-
-    /*
-     * Initial rendering.
-     */
 
     updateSlider(
         slider,
@@ -1007,33 +853,22 @@ function initializeSlider(slider){
 export function initSlider(){
 
     const sliders =
-        document.querySelectorAll(
-            SLIDER_SELECTORS.slider
+        Array.from(
+            document.querySelectorAll(
+                SLIDER_SELECTORS.slider
+            )
         );
 
 
     if(!sliders.length){
-
         return;
-
     }
 
 
     sliders.forEach(
-        (slider) => {
-
-            initializeSlider(
-                slider
-            );
-
-        }
+        initializeSlider
     );
 
-
-    /*
-     * Recalculate slider position when
-     * viewport dimensions change.
-     */
 
     window.addEventListener(
         "resize",
